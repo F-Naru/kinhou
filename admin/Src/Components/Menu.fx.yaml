@@ -1,0 +1,422 @@
+Menu As CanvasComponent:
+    Approval: =App.ActiveScreen
+    CalcHoliday: =App.ActiveScreen
+    Calendar: =App.ActiveScreen
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =App.Height
+    Holiday: =App.ActiveScreen
+    Home: =App.ActiveScreen
+    is_admin: =true
+    OnReset: =Set(disp_menu, false);
+    Setting: ="テキスト"
+    User: =App.ActiveScreen
+    Width: =120
+    X: =0
+    Y: =0
+    ZIndex: =4
+
+    MenuContainer As groupContainer.verticalAutoLayoutContainer:
+        Fill: =RGBA(0, 69, 120, 1)
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width - 24
+        X: =12
+        ZIndex: =13
+
+        home As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.None
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            PaddingLeft: =-6
+            ZIndex: =1
+
+            bg As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(255, 255, 255, 1)
+                FocusedBorderThickness: =4
+                Height: =Parent.Width - 12
+                HoverFill: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                Width: =Parent.Width
+                Y: =12
+                ZIndex: =1
+
+            label_home As label:
+                Align: =Align.Center
+                Color: =RGBA(0, 69, 120, 1)
+                DisabledFill: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                LineHeight: =2
+                OnSelect: =Navigate(Menu.Home)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="ホーム"
+                Width: =Parent.Width
+                Y: =icon_home.Y + icon_home.Height
+                ZIndex: =2
+
+            icon_home As icon.Home:
+                Color: =RGBA(0, 69, 120, 1)
+                Icon: =Icon.Home
+                OnSelect: =Navigate(Menu.Home)
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =3
+
+            panel_home As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Navigate(Menu.Home)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =4
+
+        calcholiday As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =2
+
+            label_calcholiday As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="勤怠状況一覧"
+                Width: =Parent.Width
+                Y: =icon_calcholiday.Y + icon_calcholiday.Height
+                ZIndex: =1
+
+            icon_calcholiday As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                Icon: =Icon.Journal
+                OnSelect: =
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_calcholiday As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =Navigate(Menu.CalcHoliday)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =5
+
+        calendar As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =3
+
+            label_calendar As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =Navigate(Menu.Calendar)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="勤務状況"
+                Width: =Parent.Width
+                Y: =icon_calendar.Y + icon_calendar.Height
+                ZIndex: =1
+
+            icon_calendar As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                Icon: =Icon.CalendarBlank
+                OnSelect: =Navigate(Menu.Calendar)
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_calendar As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =Navigate(Menu.Calendar)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =3
+
+        approval As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =4
+
+            label_approval As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =Navigate(Menu.Holiday)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="承認"
+                Width: =Parent.Width
+                Y: =icon_approval.Y + icon_approval.Height
+                ZIndex: =1
+
+            icon_approval As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                Icon: =Icon.CheckBadge
+                OnSelect: =Navigate(Menu.Holiday)
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_approval As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =Navigate(Menu.Approval)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =5
+
+        holiday As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =5
+
+            label_holiday As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =Navigate(Menu.Holiday)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="申請"
+                Width: =Parent.Width
+                Y: =icon_holiday.Y + icon_holiday.Height
+                ZIndex: =1
+
+            icon_holiday As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                Icon: =Icon.ListScrollWatchlist
+                OnSelect: =Navigate(Menu.Holiday)
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_holiday As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =Navigate(Menu.Holiday)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =3
+
+        user As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =Menu.is_admin
+            ZIndex: =6
+
+            label_user As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="ユーザー管理"
+                Width: =Parent.Width
+                Y: =icon_user.Y + icon_user.Height
+                ZIndex: =1
+
+            icon_user As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                Icon: =Icon.AddUser
+                OnSelect: =
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_user As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =Navigate(Menu.User);
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Parent.Width
+                ZIndex: =3
+
+        setting As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =false
+            ZIndex: =7
+
+            label_setting As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                DisplayMode: =DisplayMode.Disabled
+                Font: =Font.Arial
+                Height: =18
+                LineHeight: =2
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =10
+                Text: ="設定"
+                Width: =Parent.Width
+                Y: =icon_setting.Y + icon_setting.Height
+                ZIndex: =1
+
+            icon_setting As icon.Home:
+                Color: =RGBA(255, 255, 255, 1)
+                DisplayMode: =DisplayMode.Disabled
+                Icon: =Icon.Settings
+                OnSelect: =
+                PaddingLeft: =24
+                PaddingRight: =24
+                PaddingTop: =24
+                Width: =Parent.Width
+                ZIndex: =2
+
+            panel_setting As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                DisplayMode: =DisplayMode.Disabled
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.Height
+                HoverFill: =RGBA(255, 255, 255, 0.5)
+                OnSelect: =//Navigate(Menu.Setting);
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Visible: =false
+                Width: =Parent.Width
+                ZIndex: =3
+
+        padding As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =3
+            Height: =100
+            LayoutMinHeight: =100
+            LayoutMinWidth: =Parent.Width
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =8
+

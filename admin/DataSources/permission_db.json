@@ -1,0 +1,50 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+    "CdpRevision": {
+      "BaseUrl": "/",
+      "LastChangedTimeString": "2024-04-22T17:40:13.6900000Z",
+      "RevisionNumber": 1
+    },
+    "ConnectedDataSourceInfoNameMapping": {
+      "{Attachments}": "添付ファイル",
+      "{Attachments}@odata.type": "{Attachments} ({Attachments}@odata.type)",
+      "{FilenameWithExtension}": "拡張子付きのファイル名",
+      "{FullPath}": "完全パス ",
+      "{HasAttachments}": "添付ファイルあり",
+      "{Identifier}": "識別子",
+      "{IsFolder}": "フォルダーである",
+      "{Link}": "アイテムへのリンク",
+      "{ModerationComment}": "このリスト アイテムのコンテンツの承認に関連付けられているコメント",
+      "{ModerationStatus}": "コンテンツの承認状態",
+      "{Name}": "名前",
+      "{Path}": "フォルダーのパス",
+      "{Thumbnail}": "サムネイル",
+      "{TriggerWindowEndToken}": "ウィンドウ終了のトークンのトリガー",
+      "{TriggerWindowStartToken}": "ウィンドウ開始のトークンのトリガー",
+      "{VersionNumber}": "バージョン番号",
+      "approval": "approval_permission",
+      "approval_self": "approval_self",
+      "approval_type": "disp_permission_group",
+      "Author": "登録者",
+      "Author#Claims": "登録者 Claims",
+      "ComplianceAssetId": "コンプライアンス資産 ID",
+      "Created": "登録日時",
+      "Editor": "更新者",
+      "Editor#Claims": "更新者 Claims",
+      "ext_faculty_admin_permission": "ext_faculty_admin_permission",
+      "ID": "ID",
+      "manage": "admin",
+      "Modified": "更新日時",
+      "OData__ColorTag": "色タグ",
+      "permission_type": "permission_type",
+      "Title": "permission_name"
+    },
+    "DatasetName": "https://hunet.sharepoint.com/sites/msteams_1bbfea_382163",
+    "EncodeDataset": true,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "permission_db",
+    "Type": "ConnectedDataSourceInfo"
+  }
+]

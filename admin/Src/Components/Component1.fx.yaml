@@ -1,0 +1,16 @@
+Component1 As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =
+    parent_height: =100
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ComboBox1 As combobox:
+        Items: =ComboBoxSample
+        SearchItems: =Search(ComboBoxSample,ComboBox1.SearchText,Value1)
+        X: =parent_heigh
+        Y: =
+        ZIndex: =1
+

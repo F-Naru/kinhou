@@ -1,0 +1,64 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": true,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "TitleBar_7",
+    "TemplateGuid": "3e8a1e6277104ae999400dec476ef1c4"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "TitleBarLabel",
+      "Hidden": false,
+      "Name": "TitleBarLabel",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "タイトルバーの文字",
+      "Type": "{\"Version\":\"1.343\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "UserPermissionName",
+      "Hidden": false,
+      "Name": "UserPermissionName",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "権限名",
+      "Type": "{\"Version\":\"1.343\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "UserName",
+      "Hidden": false,
+      "Name": "UserName",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "ユーザー名",
+      "Type": "{\"Version\":\"1.343\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "DeviceSize",
+      "Hidden": false,
+      "Name": "DeviceSize",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "画面サイズを格納するプロパティで1はMedim,2はLarge,3はExtraLarge",
+      "Type": "{\"Version\":\"1.343\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPcfControl": false,
+  "IsPremiumPcfControl": false,
+  "IsWidgetTemplate": false,
+  "LastModifiedTimestamp": "638662060832396120",
+  "Name": "3e8a1e6277104ae999400dec476ef1c4",
+  "OverridableProperties": {},
+  "TemplateOriginalName": "46939340060c4f209552e04b6d7d7cd7",
+  "Version": "1.0"
+}

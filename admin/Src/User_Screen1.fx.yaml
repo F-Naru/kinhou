@@ -1,0 +1,1991 @@
+User_Screen1 As screen:
+    OnHidden: |-
+        =//UpdateContext({Humberger:false})
+    OnVisible: =Set(disp_menu, false);
+
+    ScreenContainer1_5 As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.None
+        Fill: =RGBA(250, 250, 250, 1)
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =15
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =16
+        PaddingLeft: =16
+        PaddingRight: =16
+        PaddingTop: =16
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Width: =Parent.Width
+        ZIndex: =1
+
+        TitleBar_6 As TitleBar:
+            LayoutMinHeight: =640
+            LayoutMinWidth: =640
+            TitleBarLabel: ="ユーザー管理"
+            UserName: |-
+                =LookUp(user_db,mail_address=User().Email).user_name & "　" & LookUp(user_db,mail_address=User().Email).user_id & "
+                " & User().Email
+            UserPermissionName: =First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).permission_name
+            ZIndex: =1
+
+        TableNameContainer1_5 As groupContainer.horizontalAutoLayoutContainer:
+            Fill: =RGBA(0, 121, 187, 1)
+            FillPortions: =0
+            Height: =68
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            Visible: =false
+            ZIndex: =2
+
+            BackButton1_6 As icon.ChevronLeft:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                DisabledColor: =RGBA(225, 223, 221, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 120, 212, 1)
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =RGBA(0, 120, 212, 1)
+                Icon: =Icon.Hamburger
+                OnSelect: |-
+                    =//UpdateContext({Humberger:!Humberger})//未使用変数
+                PaddingBottom: =15
+                PaddingLeft: =15
+                PaddingRight: =15
+                PaddingTop: =15
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(16, 110, 190, 1)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Self.Height
+                ZIndex: =1
+
+            TableNameLabel1_5 As label:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledColor: =RGBA(186, 186, 186, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                FillPortions: =1
+                FontWeight: =FontWeight.Semibold
+                Height: =68
+                PaddingBottom: =16
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =16
+                Size: =16
+                Text: ="教員追加画面"
+                ZIndex: =2
+
+            IconRefresh1_6 As icon.Reload:
+                AccessibleLabel: =Self.Tooltip
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                Height: =40
+                Icon: =Icon.Reload
+                OnSelect: |-
+                    =Refresh([@holiday_db]);
+                    Refresh([@year_db]);
+                    Refresh([@monthly_db]);
+                    Refresh([@user_db]);
+                PaddingBottom: =15
+                PaddingLeft: =15
+                PaddingRight: =15
+                PaddingTop: =15
+                PressedFill: =RGBA(255, 255, 255, 0.3)
+                TabIndex: =0
+                Tooltip: ="一覧の更新"
+                X: =464
+                ZIndex: =3
+
+        BodyContainer1_5 As groupContainer.horizontalAutoLayoutContainer:
+            DropShadow: =DropShadow.None
+            LayoutGap: =16
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =3
+
+            SidebarContainer1_3 As groupContainer.verticalAutoLayoutContainer:
+                Fill: =RGBA(255, 255, 255, 1)
+                FillPortions: =If(And(User_Screen1.Size = ScreenSize.Small, Or(newMode, editMode, itemSelected)), 0, 3)
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =10
+                Visible: =If(And(User_Screen1.Size = ScreenSize.Small, Or(newMode, editMode, itemSelected)), false, true)
+                ZIndex: =5
+
+                SearchContainer1_5 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    Fill: =RGBA(245, 245, 245, 1)
+                    FillPortions: =0
+                    Height: =44
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =0
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    SearchIcon1_7 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(56, 56, 56, 1)
+                        DisabledColor: =RGBA(119, 119, 119, 1)
+                        Height: =44
+                        Icon: =Icon.Reset
+                        OnSelect: =Reset(searchinput1_1)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Tooltip: ="名前の検索をやめる"
+                        Width: =44
+                        ZIndex: =1
+
+                    searchinput1_1 As combobox:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        ChevronBackground: =RGBA(245, 245, 245, 1)
+                        ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                        ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                        ChevronFill: =RGBA(50, 49, 48, 1)
+                        ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                        ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        DisplayFields: =["Title","mail_address"]
+                        Fill: =RGBA(245, 245, 245, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =Parent.Height
+                        HoverBorderColor: =RGBA(16, 110, 190, 1)
+                        HoverColor: =RGBA(50, 49, 48, 1)
+                        HoverFill: =RGBA(245, 245, 245, 1)
+                        InputTextPlaceholder: ="すべてのユーザーから選択"
+                        Items: |-
+                            =With({results:Filter([@user_db],StartsWith(user_name,Self.SearchText))},results)
+                        PressedBorderColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 120, 212, 1)
+                        SearchFields: =["Title"]
+                        SearchItems: |-
+                            =Search(With({results:Filter([@user_db],StartsWith(user_name,Self.SearchText))},results),searchinput1_1.SearchText,Title)
+                        SelectionFill: =RGBA(0, 120, 212, 1)
+                        SelectMultiple: =false
+                        Template: =ListItemTemplate.Double
+                        Width: =Parent.Width-44
+                        ZIndex: =2
+
+                NewRecordButtonBarContainer1_1 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    FillPortions: =0
+                    Height: =44
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =2
+
+                    NewRecordAddIcon1_2 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =44
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Add
+                        OnSelect: |-
+                            =NewForm(Form1_3); UpdateContext({ newMode: true });
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Width: =44
+                        ZIndex: =1
+
+                    NewRecordLabel1_1 As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        FillPortions: =1
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =44
+                        LayoutMinWidth: =Parent.Width/2 - 44
+                        Text: ="新規"
+                        ZIndex: =2
+
+                    FacultyDropdown1_4 As dropdown:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        ChevronBackground: =RGBA(245, 245, 245, 1)
+                        ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                        ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                        ChevronFill: =RGBA(50, 49, 48, 1)
+                        ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                        ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        Default: ="情報科学部"
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        DisplayMode: |-
+                            =If(IsBlank(searchinput1_1.SelectedItems) || IsEmpty(searchinput1_1.SelectedItems),
+                                // 権限タイプのフィルター
+                                DisplayMode.Edit,
+                                // ユーザー指定
+                                DisplayMode.Disabled
+                            )
+                        Fill: =RGBA(245, 245, 245, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =44
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(50, 49, 48, 1)
+                        HoverFill: =RGBA(245, 245, 245, 1)
+                        Items: =Sort([@permission_db], permission_type).permission_name
+                        LayoutMinWidth: =10
+                        OnSelect: =
+                        PaddingBottom: =5
+                        PaddingLeft: =12
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedFill: =RGBA(0, 120, 212, 1)
+                        SelectionColor: =RGBA(50, 49, 48, 1)
+                        SelectionFill: =RGBA(0, 0, 0, 0)
+                        Width: =Parent.Width/2
+                        Y: =3
+                        ZIndex: =4
+
+                RecordsListSeparator1_6 As rectangle:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    DisabledFill: =RGBA(161, 159, 157, 1)
+                    Fill: =RGBA(225, 223, 221, 1)
+                    FocusedBorderThickness: =4
+                    Height: =1
+                    HoverFill: =RGBA(0, 120, 212, 1)
+                    LayoutMinWidth: =200
+                    PressedFill: =RGBA(0, 120, 212, 1)
+                    ZIndex: =4
+
+                hit_view_3 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    FillPortions: =0
+                    Height: =30
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    Width: =Parent.Width
+                    X: =40
+                    Y: =40
+                    ZIndex: =5
+
+                    hit_view_textlabel_3 As label:
+                        Align: =Align.Right
+                        Text: |-
+                            =With(
+                                {
+                                    AllItemCount: Filter([@user_db], user_id = searchinput1_1.Selected.user_id)
+                                },
+                                If(IsBlank(searchinput1_1.SelectedItems) || IsEmpty(searchinput1_1.SelectedItems),
+                                    If(hit_Gallery_3.AllItemsCount = 100,
+                                        // 権限タイプのフィルター
+                                        $"{hit_Gallery_3.AllItemsCount} 件以上",
+                                        $"{hit_Gallery_3.AllItemsCount} 件"
+                                    ),
+                                    // ユーザー指定
+                                    $"{hit_Gallery_3.AllItemsCount} 件"
+                                )
+                            )
+                        Width: =Parent.Width
+                        X: =123
+                        Y: =673
+                        ZIndex: =1
+
+                "hit_Gallery_3 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                    '#CopilotOverlayLabel': ="フィルター済み"
+                    DelayItemLoading: =true
+                    Fill: =RGBA(250, 250, 250, 1)
+                    Height: |
+                        =Parent.Height*7/8
+                    Items: |
+                        =If(IsBlank(searchinput1_1.SelectedItems) || IsEmpty(searchinput1_1.SelectedItems),
+                            // 権限タイプのフィルター
+                            Sort(
+                                Filter(
+                                    [@user_db],	
+                                    permission_type = LookUp([@permission_db], permission_name = FacultyDropdown1_4.SelectedText.Value).permission_type
+                                ),
+                                visible,
+                                SortOrder.Descending
+                            ),
+                            // ユーザー指定
+                            Filter(
+                                [@user_db],	
+                                user_id = searchinput1_1.Selected.user_id
+                            )
+                        )
+                    Layout: =Layout.Vertical
+                    LayoutMinHeight: =287
+                    LayoutMinWidth: =320
+                    LoadingSpinner: =LoadingSpinner.Data
+                    TemplateFill: =If(Self.IsSelected, RGBA(230, 230, 230, 1), RGBA(0, 0, 0, 0))
+                    TemplatePadding: =0
+                    TemplateSize: =100
+                    Width: =Parent.Width
+                    X: =710
+                    Y: =88
+                    ZIndex: =6
+
+                    MailAddressDisplay1 As label:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(96, 94, 92, 1)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =Self.Size * 1.8
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: =ThisItem.mail_address
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =UserNameDisplay1.Width
+                        X: =1
+                        Y: =PermissionDisplay1.Y + PermissionDisplay1.Height
+                        ZIndex: =1
+
+                    PermissionDisplay1 As label:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(96, 94, 92, 1)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =Self.Size * 1.8
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: =First(Filter([@permission_db], permission_type = First(Filter([@user_db], user_id = ThisItem.user_id)).permission_type)).permission_name
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =UserNameDisplay1.Width
+                        X: =1
+                        Y: =UserNameDisplay1.Y + UserNameDisplay1.Height
+                        ZIndex: =2
+
+                    UserNameDisplay1 As label:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =Self.Size * 1.8
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =14
+                        Text: =$"{ThisItem.user_id} {ThisItem.user_name}"
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Parent.TemplateWidth - 86
+                        X: =1
+                        Y: =(Parent.TemplateHeight - (Self.Size*1.8 + PermissionDisplay1.Size*1.8 + 2 + MailAddressDisplay1.Size*1.8)) / 2
+                        ZIndex: =3
+
+                    Separator1_1 As rectangle:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =8
+                        OnSelect: =Select(Parent)
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - Self.Height
+                        ZIndex: =4
+
+                    Rectangle1_1 As rectangle:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Fill: =RGBA(0, 69, 120, 1)
+                        Height: =92
+                        OnSelect: =Select(Parent)
+                        Visible: =ThisItem.IsSelected
+                        Width: =5
+                        ZIndex: =5
+
+                    IsHiddenIcon1 As icon.Hide:
+                        Color: =RGBA(51, 51, 51, 1)
+                        Height: =30
+                        Icon: =Icon.Hide
+                        OnSelect: =Select(Parent)
+                        Visible: |-
+                            =// 非表示ユーザーはアイコンを表示
+                            !ThisItem.visible
+                        Width: =30
+                        X: =Parent.Width - Self.Width - 30
+                        Y: =Parent.TemplateHeight/2 - Self.Height/2
+                        ZIndex: =6
+
+            RightContainer1_3 As groupContainer.verticalAutoLayoutContainer:
+                DropShadow: =DropShadow.None
+                FillPortions: =7
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =16
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =2
+                PaddingRight: =2
+                PaddingTop: =2
+                Visible: |
+                    =If(Or(deleteMode,submitMode, And(User_Screen1.Size = ScreenSize.Small, !newMode, !editMode, !itemSelected)), false, true)
+                Width: =0
+                ZIndex: =14
+
+                SelectedRecordHeaderContainer1_3 As groupContainer.horizontalAutoLayoutContainer:
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =15
+
+                    BackIconButton1_3 As icon.Add:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 120, 212, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.ChevronLeft
+                        OnSelect: |-
+                            =UpdateContext({ itemSelected: false })
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Visible: =If(User_Screen1.Size = ScreenSize.Small, And(!editMode, !newMode, !deleteMode,!submitMode), false)
+                        Width: =50
+                        ZIndex: =1
+
+                    SelectedRecordTitle1_3 As label:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(50, 49, 48, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        FillPortions: =1
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        PaddingLeft: =30
+                        Text: =If(newMode,"新規申請","内容詳細")
+                        ZIndex: =2
+
+                    SubmitFormButton1_3 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Check
+                        OnSelect: |-
+                            =UpdateContext(
+                                {
+                                    //submitMode: true,
+                                    //submitCancelled: false,
+                                    submitRecord: Form1_3.Updates,
+                                    Start_Year:DataCardValue7_3.Text
+                                }
+                            );
+                            If(
+                                !Form1_3.Valid,
+                                Notify("未入力箇所があります.",NotificationType.Error);
+                                UpdateContext({ submitMode: false, submitCancelled: true }),
+                                
+                                SubmitForm(Form1_3);
+                                If(!editMode,
+                                    // 新規教員のmonthly_dbを追加する（1月から12月まで）
+                                    ForAll(
+                                        Sequence(12) As ThisSequenceMonth,
+                                        Patch(
+                                            [@monthly_db],
+                                            { ID: Blank() },
+                                            {
+                                                user_id: submitRecord.user_id,
+                                                faculty: submitRecord.faculty,
+                                                // faculty_text: submitRecord.faculty.Value,
+                                                // submit_dateを1月から12月まで繰り返し設定
+                                                year_month_date: DateValue(Text(If(ThisSequenceMonth.Value<4,Year(Today())+1,Year(Today())) & "/" & Text(ThisSequenceMonth.Value) & "/01"))
+                                            }
+                                        )
+                                    );
+                                    //年度跨ぎ用に2年分用意する
+                                    ForAll(
+                                        Sequence(12) As ThisSequenceMonth,
+                                        Patch(
+                                            [@monthly_db],
+                                            { ID: Blank() },
+                                            {
+                                                user_id: submitRecord.user_id,
+                                                faculty: submitRecord.faculty,
+                                                // faculty_text: submitRecord.faculty.Value,
+                                                // submit_dateを1月から12月まで繰り返し設定
+                                                year_month_date: DateValue(Text(If(ThisSequenceMonth.Value<4,Year(Today())+2,Year(Today())+1) & "/" & Text(ThisSequenceMonth.Value) & "/01"))
+                                            }
+                                        )
+                                    );
+                                    //新規教員のyear_dbを追加する
+                                    Patch(
+                                        [@year_db],
+                                        { ID: Blank() },
+                                        {
+                                            user_id: submitRecord.user_id,
+                                            faculty: submitRecord.faculty,
+                                            faculty_text: submitRecord.faculty.Value,
+                                            year:Value(Start_Year),
+                                            current_paid_holiday:20,
+                                            previous_paid_holiday:0,
+                                            summer_holiday:5,        
+                                            acquisition_paid_holiday_day:0,
+                                            acquisition_summer_holiday_day:0
+                                        }
+                                    );
+                                ,
+                                Notify("編集します",NotificationType.Success);
+                                ClearCollect(holiday_user_collection,Filter([@holiday_db],user_id = submitRecord.user_id,submit_date >= Date(Start_Year,4,1)));
+                                //学科等の変更があったとき
+                                If(selectedRecord.faculty.Value <> submitRecord.faculty.Value,
+                                    //holiday_dbのパッチ
+                                    ForAll(holiday_user_collection,Patch([@holiday_db],ThisRecord,{faculty:submitRecord.faculty}));
+                                    //work_dbのパッチ
+                                    ClearCollect(work_user_collection,Filter([@work_db],user_id = submitRecord.user_id,Start >= Date(Start_Year,4,1)));
+                                    ForAll(work_user_collection,Patch([@work_db],ThisRecord,{faculty:submitRecord.faculty}));
+                                    //monthly_dbのパッチ
+                                    ClearCollect(monthly_user_collection,Filter([@monthly_db],user_id = submitRecord.user_id, year_month_date >= Date(Start_Year,4,1)));
+                                    ForAll(monthly_user_collection,Patch([@monthly_db],ThisRecord,{faculty:submitRecord.faculty}));
+                                    //year_dbのパッチ
+                                    ClearCollect(year_user_collection,Filter([@year_db],user_id = submitRecord.user_id,year >= Value(Start_Year)));
+                                    ForAll(year_user_collection,Patch([@year_db],ThisRecord,{faculty:submitRecord.faculty}));
+                                    
+                                    
+                                );
+                            
+                                //決裁者が変わったとき
+                                If(selectedRecord.permission_group <> submitRecord.permission_group,
+                                    //holiday_dbのパッチ
+                                    ForAll(holiday_user_collection,Patch([@holiday_db],ThisRecord,{permission_group:submitRecord.permission_group}));
+                                );
+                                Notify("編集が完了しました",NotificationType.Success);
+                                );
+                                UpdateContext({ submitMode: false, submitCancelled: true });
+                            )
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Visible: =Or(editMode, newMode)
+                        Width: =50
+                        ZIndex: =3
+
+                    ResetFormButton1_3 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Cancel
+                        OnSelect: |-
+                            =ResetForm(Form1_3); UpdateContext({ editMode: false, newMode: false });
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Visible: =Or(editMode, newMode)
+                        Width: =50
+                        ZIndex: =4
+
+                    EditIconButton1_3 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Edit
+                        OnSelect: |-
+                            =UpdateContext({ selectedRecord:hit_Gallery_3.Selected, editMode: true })
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Visible: =And(!IsBlank(hit_Gallery_3.Selected),!Or(newMode,editMode,deleteMode))
+                        Width: =50
+                        ZIndex: =5
+
+                    DeleteIconButton1_3 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                        DisabledColor: =RGBA(225, 223, 221, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderThickness: =4
+                        Height: =50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(16, 110, 190, 1)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Trash
+                        OnSelect: |-
+                            =UpdateContext({ deleteMode: true, deleteCancelled: false, selectedRecord:hit_Gallery_3.Selected })
+                        PaddingBottom: =12
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =12
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =RGBA(16, 110, 190, 1)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Visible: =And(!IsBlank(hit_Gallery_3.Selected),!Or(newMode,editMode,deleteMode))
+                        Width: =50
+                        ZIndex: =6
+
+                MainContainer1_3 As groupContainer.verticalAutoLayoutContainer:
+                    Fill: =RGBA(255, 255, 255, 1)
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =22
+
+                    Form1_3 As form:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        DataSource: =user_db
+                        DefaultMode: =If(newMode, FormMode.New, editMode, FormMode.Edit, FormMode.View)
+                        Item: =hit_Gallery_3.Selected
+                        LayoutMinHeight: =250
+                        LayoutMinWidth: =300
+                        NumberOfColumns: =2
+                        OnFailure: =Notify("保存できません。フォームにエラーがないか確認してください。", NotificationType.Error)
+                        OnSuccess: |-
+                            =UpdateContext({ //CurrentItem: Self.LastSubmit, //未使用変数
+                            editMode: false, newMode: false })
+                        ZIndex: =1
+
+                        visible_DataCard1 As typedDataCard.toggleEditCard:
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="visible"
+                            Default: =ThisItem.visible
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: |-
+                                =// DataSourceInfo([@user_db],DataSourceInfo.DisplayName,is_hidden)
+                                "ユーザー表示"
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            Required: =false
+                            Update: =DataCardValue18.Value
+                            Width: =458
+                            X: =1
+                            Y: =0
+                            ZIndex: =1
+
+                            DataCardKey18 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                Font: =Font.Lato
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue18 As toggleSwitch:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Default: =Parent.Default
+                                DisplayMode: =Parent.DisplayMode
+                                FalseText: ="非表示"
+                                Tooltip: =Parent.DisplayName
+                                TrueText: ="表示"
+                                Width: =120
+                                X: =30
+                                Y: =DataCardKey18.Y + DataCardKey18.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage9 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                Color: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =14
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue18.Y + DataCardValue18.Height
+                                ZIndex: =3
+
+                            StarVisible9 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                Color: =RGBA(0, 18, 107, 1)
+                                Height: =DataCardKey18.Height
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey18.Y
+                                ZIndex: =4
+
+                        start_year_DataCard1_1 As typedDataCard.blankCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="start_date"
+                            DisplayMode: =DisplayMode.Edit
+                            DisplayName: ="勤務開始年度"
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =108
+                            Visible: =newMode
+                            Width: =458
+                            X: =0
+                            Y: =3
+                            ZIndex: =1
+
+                            DataCardValue7_3 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Color: =RGBA(50, 49, 48, 1)
+                                Default: =Year(Now())
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayMode: =Parent.DisplayMode
+                                Font: =Font.'Segoe UI'
+                                Format: =TextFormat.Number
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(255, 255, 255, 1)
+                                PaddingLeft: =5
+                                PressedBorderColor: =RGBA(0, 120, 212, 1)
+                                PressedColor: =RGBA(50, 49, 48, 1)
+                                PressedFill: =RGBA(255, 255, 255, 1)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey7_3.Y + DataCardKey7_3.Height + 5
+                                ZIndex: =1
+
+                            StarVisible7_4 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey7_3.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                X: =60
+                                Y: =DataCardKey7_3.Y
+                                ZIndex: =2
+
+                            ErrorMessage7_4 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =60
+                                Y: =DataCardValue7_2.Y + DataCardValue7_2.Height
+                                ZIndex: =3
+
+                            DataCardKey7_4 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="勤務開始年度"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =4
+
+                        permission_group_DataCard1 As typedDataCard.numberEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="permission_group"
+                            Default: =ThisItem.permission_group
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,permission_group)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            Required: =false
+                            Update: =Value(DataCardValue12.Text)
+                            Width: =458
+                            X: =1
+                            Y: =3
+                            ZIndex: =1
+
+                            DataCardKey12 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                FontWeight: =FontWeight.Bold
+                                Height: =34
+                                Text: ="決裁者"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue12 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Default: |-
+                                    =//Parent.Default
+                                    PermissionGroupName.Selected.disp_permission_group
+                                DelayOutput: =true
+                                DisplayMode: =Parent.DisplayMode
+                                Format: =TextFormat.Number
+                                Height: =39
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Visible: =false
+                                Width: =76
+                                X: =352
+                                Y: =47
+                                ZIndex: =2
+
+                            ErrorMessage5 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                Color: =RGBA(168, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =14
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue12.Y + DataCardValue12.Height
+                                ZIndex: =3
+
+                            StarVisible5 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 1)
+                                Color: =RGBA(0, 18, 107, 1)
+                                Height: =DataCardKey12.Height
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey12.Y
+                                ZIndex: =4
+
+                            PermissionGroupName As combobox:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                ChevronBackground: =RGBA(245, 245, 245, 1)
+                                ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                                ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                                ChevronFill: =RGBA(50, 49, 48, 1)
+                                ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                                ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                                Color: =RGBA(50, 49, 48, 1)
+                                DefaultSelectedItems: =LookUp([@permission_db],Parent.Default = disp_permission_group)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayFields: =["Title"]
+                                DisplayMode: =Parent.DisplayMode
+                                Fill: =RGBA(245, 245, 245, 1)
+                                Font: =Font.'Segoe UI'
+                                Height: =34
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(245, 245, 245, 1)
+                                Items: |-
+                                    =With({
+                                        permission_db_copy:Filter([@permission_db],approval_permission)
+                                        },
+                                        //管理者と[管理を対象外に]
+                                        Filter(permission_db_copy,!admin)
+                                    )
+                                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                                PressedBorderColor: =RGBA(16, 110, 190, 1)
+                                PressedFill: =RGBA(0, 120, 212, 1)
+                                SearchFields: =["Title"]
+                                SearchItems: |-
+                                    =Search(With({permission_db_copy:Filter([@permission_db],approval_permission)},Filter(permission_db_copy,!admin)),PermissionGroupName.SearchText,Title)
+                                SelectionFill: =RGBA(0, 120, 212, 1)
+                                SelectMultiple: =false
+                                Tooltip: =Parent.DisplayName
+                                Width: =284
+                                X: =40
+                                Y: =DataCardKey5_3.Y + DataCardKey5_3.Height + 5
+                                ZIndex: =5
+
+                        holiday_weekday_DataCard1 As typedDataCard.comboBoxMultiSelectEditCard:
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="holiday_weekday"
+                            Default: =ThisItem.holiday_weekday
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: |-
+                                =//DataSourceInfo([@user_db],DataSourceInfo.DisplayName,holiday_weekday)
+                                "休日の曜日"
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =146
+                            Required: =true
+                            Update: =DataCardValue20.SelectedItems
+                            Width: =458
+                            X: =0
+                            Y: =4
+                            ZIndex: =1
+
+                            DataCardKey20 As label:
+                                AutoHeight: =true
+                                Color: =RGBA(0, 0, 0, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                Text: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue20 As combobox:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                BorderStyle: =BorderStyle.None
+                                ChevronBackground: =RGBA(245, 245, 245, 1)
+                                ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                                ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                                ChevronFill: =RGBA(50, 49, 48, 1)
+                                ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                                Color: =RGBA(50, 49, 48, 1)
+                                DefaultSelectedItems: =Parent.Default
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisplayFields: =["Value"]
+                                DisplayMode: =Parent.DisplayMode
+                                Fill: =RGBA(245, 245, 245, 1)
+                                HoverFill: =RGBA(245, 245, 245, 1)
+                                IsSearchable: =false
+                                Items: =Choices([@user_db].holiday_weekday)
+                                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                                SearchFields: =["Value"]
+                                SearchItems: =[]
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey20.Y + DataCardKey20.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage11 As label:
+                                AutoHeight: =true
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue20.Y + DataCardValue20.Height
+                                ZIndex: =3
+
+                            StarVisible11 As label:
+                                Align: =Align.Center
+                                Color: =RGBA(0, 0, 0, 1)
+                                Height: =DataCardKey20.Height
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey20.Y
+                                ZIndex: =4
+
+                            Label14 As label:
+                                Height: =53
+                                Text: |-
+                                    ="曜日を数字で表しています。
+                                    1⇒日、2⇒月、3⇒火、4⇒水、5⇒木、6⇒金、7⇒土"
+                                Width: =441
+                                X: =13
+                                Y: =92
+                                ZIndex: =5
+
+                        user_name_DataCard1_1 As typedDataCard.textualEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="Title"
+                            Default: =ThisItem.user_name
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,user_name)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            MaxLength: =DataSourceInfo([@user_db], DataSourceInfo.MaxLength, user_name)
+                            Required: =false
+                            Update: =DataCardValue1_3.Text
+                            Width: =458
+                            X: =0
+                            Y: =0
+                            ZIndex: =24
+
+                            DataCardKey1_4 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="教員名"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue1_3 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Color: =RGBA(50, 49, 48, 1)
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayMode: =Parent.DisplayMode
+                                Font: =Font.'Segoe UI'
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(255, 255, 255, 1)
+                                MaxLength: =Parent.MaxLength
+                                PaddingLeft: =5
+                                PressedBorderColor: =RGBA(0, 120, 212, 1)
+                                PressedColor: =RGBA(50, 49, 48, 1)
+                                PressedFill: =RGBA(255, 255, 255, 1)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey1_4.Y + DataCardKey1_4.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage1_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue1_3.Y + DataCardValue1_3.Height
+                                ZIndex: =3
+
+                            StarVisible1_3 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey1_4.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey1_4.Y
+                                ZIndex: =4
+
+                        user_id_DataCard1_2 As typedDataCard.numberEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="user_id"
+                            Default: =ThisItem.user_id
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,user_id)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            Required: =true
+                            Update: =Value(DataCardValue2_3.Text)
+                            Width: =458
+                            X: =0
+                            Y: =1
+                            ZIndex: =24
+
+                            DataCardKey2_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="職員番号"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue2_3 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Color: =RGBA(50, 49, 48, 1)
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayMode: =If(newMode,DisplayMode.Edit,DisplayMode.View)
+                                Font: =Font.'Segoe UI'
+                                Format: =TextFormat.Number
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(255, 255, 255, 1)
+                                PaddingLeft: =5
+                                PressedBorderColor: =RGBA(0, 120, 212, 1)
+                                PressedColor: =RGBA(50, 49, 48, 1)
+                                PressedFill: =RGBA(255, 255, 255, 1)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey2_3.Y + DataCardKey2_3.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage2_4 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue2_3.Y + DataCardValue2_3.Height
+                                ZIndex: =3
+
+                            StarVisible2_4 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey2_3.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey2_3.Y
+                                ZIndex: =4
+
+                        mail_address_DataCard1_1 As typedDataCard.textualEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="mail_address"
+                            Default: =ThisItem.mail_address
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,mail_address)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            MaxLength: =DataSourceInfo([@user_db], DataSourceInfo.MaxLength, mail_address)
+                            Required: =true
+                            Update: =DataCardValue3_3.Text
+                            Width: =458
+                            X: =1
+                            Y: =1
+                            ZIndex: =24
+
+                            DataCardKey3_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="Microsoft メールアドレス"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue3_3 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Color: =RGBA(50, 49, 48, 1)
+                                Default: =Parent.Default
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayMode: =Parent.DisplayMode
+                                Font: =Font.'Segoe UI'
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(255, 255, 255, 1)
+                                MaxLength: =Parent.MaxLength
+                                PaddingLeft: =5
+                                PressedBorderColor: =RGBA(0, 120, 212, 1)
+                                PressedColor: =RGBA(50, 49, 48, 1)
+                                PressedFill: =RGBA(255, 255, 255, 1)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey3_3.Y + DataCardKey3_3.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage3_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue3_3.Y + DataCardValue3_3.Height
+                                ZIndex: =3
+
+                            StarVisible3_3 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey3_3.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey3_3.Y
+                                ZIndex: =4
+
+                        faculty_DataCard1_2 As typedDataCard.comboBoxEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="faculty"
+                            Default: =ThisItem.faculty
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,faculty)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            Required: =true
+                            Update: =DataCardValue5_1.Selected
+                            Width: =458
+                            X: =0
+                            Y: =2
+                            ZIndex: =24
+
+                            DataCardKey5_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="学部等"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue5_1 As combobox:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                ChevronBackground: =RGBA(245, 245, 245, 1)
+                                ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                                ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                                ChevronFill: =RGBA(50, 49, 48, 1)
+                                ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                                ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                                Color: =RGBA(50, 49, 48, 1)
+                                DefaultSelectedItems: =Parent.Default
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayFields: =["Value"]
+                                DisplayMode: =Parent.DisplayMode
+                                Fill: =RGBA(245, 245, 245, 1)
+                                Font: =Font.'Segoe UI'
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(245, 245, 245, 1)
+                                Items: =Choices([@user_db].faculty)
+                                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                                PressedBorderColor: =RGBA(16, 110, 190, 1)
+                                PressedFill: =RGBA(0, 120, 212, 1)
+                                SearchFields: =["Value"]
+                                SearchItems: =Choices(user_db.faculty,DataCardValue5_1.SearchText)
+                                SelectionFill: =RGBA(0, 120, 212, 1)
+                                SelectMultiple: =false
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardKey5_3.Y + DataCardKey5_3.Height + 5
+                                ZIndex: =2
+
+                            ErrorMessage5_4 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue5_1.Y + DataCardValue5_1.Height
+                                ZIndex: =3
+
+                            StarVisible5_4 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey5_3.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey5_3.Y
+                                ZIndex: =4
+
+                        permission_type_DataCard1_1 As typedDataCard.numberEditCard:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            BorderStyle: =BorderStyle.Solid
+                            DataField: ="permission_type"
+                            Default: =ThisItem.permission_type
+                            DisplayMode: =Parent.DisplayMode
+                            DisplayName: =DataSourceInfo([@user_db],DataSourceInfo.DisplayName,permission_type)
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =50
+                            Required: =false
+                            Update: =Value(DataCardValue7_2.Text)
+                            Width: =458
+                            X: =1
+                            Y: =2
+                            ZIndex: =24
+
+                            DataCardKey7_3 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                PaddingLeft: =0
+                                Text: ="権限タイプ"
+                                Width: =Parent.Width - 60
+                                Wrap: =false
+                                X: =30
+                                Y: =10
+                                ZIndex: =1
+
+                            DataCardValue7_4 As combobox:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                ChevronBackground: =RGBA(245, 245, 245, 1)
+                                ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                                ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                                ChevronFill: =RGBA(50, 49, 48, 1)
+                                ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                                ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                                Color: =RGBA(50, 49, 48, 1)
+                                DefaultSelectedItems: =LookUp([@permission_db], permission_type = Value(Parent.Default))
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayFields: =["Title"]
+                                DisplayMode: =Parent.DisplayMode
+                                Fill: =RGBA(245, 245, 245, 1)
+                                Font: =Font.'Segoe UI'
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(245, 245, 245, 1)
+                                InputTextPlaceholder: ="権限タイプを選択"
+                                Items: =Sort([@permission_db], permission_type).permission_name
+                                PressedBorderColor: =RGBA(16, 110, 190, 1)
+                                PressedFill: =RGBA(0, 120, 212, 1)
+                                SearchFields: =["Title"]
+                                SearchItems: =Search(Sort([@permission_db],permission_type).permission_name,DataCardValue7_4.SearchText,Title)
+                                SelectionFill: =RGBA(0, 120, 212, 1)
+                                SelectMultiple: =false
+                                Tooltip: =Parent.DisplayName
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =46
+                                ZIndex: =2
+
+                            DataCardValue7_2 As text:
+                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                Color: =RGBA(50, 49, 48, 1)
+                                Default: =LookUp([@permission_db], permission_name = DataCardValue7_4.Selected.permission_name).permission_type
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                DisabledFill: =RGBA(242, 242, 241, 0)
+                                DisplayMode: =Parent.DisplayMode
+                                Font: =Font.'Segoe UI'
+                                Format: =TextFormat.Number
+                                HoverBorderColor: =RGBA(16, 110, 190, 1)
+                                HoverColor: =RGBA(50, 49, 48, 1)
+                                HoverFill: =RGBA(255, 255, 255, 1)
+                                PaddingLeft: =5
+                                PressedBorderColor: =RGBA(0, 120, 212, 1)
+                                PressedColor: =RGBA(50, 49, 48, 1)
+                                PressedFill: =RGBA(255, 255, 255, 1)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Tooltip: =Parent.DisplayName
+                                Visible: =false
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =46
+                                ZIndex: =3
+
+                            ErrorMessage7_1 As label:
+                                AutoHeight: =true
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(168, 0, 0, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =Parent.Error
+                                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue7_2.Y + DataCardValue7_2.Height
+                                ZIndex: =4
+
+                            StarVisible7_1 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                Color: =RGBA(50, 49, 48, 1)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                FontWeight: =FontWeight.Semibold
+                                Height: =DataCardKey7_3.Height
+                                PaddingLeft: =0
+                                Text: ="*"
+                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                Width: =30
+                                Wrap: =false
+                                Y: =DataCardKey7_3.Y
+                                ZIndex: =5
+
+            DeleteConfirmDialogContainer1_3 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =7
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Visible: =If(deleteMode, true, false)
+                Width: =0
+                ZIndex: =24
+
+                ConfirmDeletionLabel1_4 As label:
+                    Align: =Align.Center
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(50, 49, 48, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(161, 159, 157, 1)
+                    FillPortions: =1
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Text: ="このユーザーを削除しますか?"
+                    ZIndex: =25
+
+                ConfirmDeleteButtonBarContainer1_4 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    LayoutGap: =15
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutWrap: =true
+                    ZIndex: =26
+
+                    CancelDeleteButton1_4 As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(0, 120, 212, 1)
+                        Font: =Font.'Segoe UI'
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverFill: =RGBA(16, 110, 190, 1)
+                        OnSelect: |-
+                            =UpdateContext({ deleteMode: false, deleteCancelled: true })
+                        PressedBorderColor: =RGBA(0, 69, 120, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(16, 110, 190, 1)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="キャンセル"
+                        ZIndex: =27
+
+                    ConfirmDeleteButton1_4 As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(0, 120, 212, 1)
+                        Font: =Font.'Segoe UI'
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverFill: =RGBA(16, 110, 190, 1)
+                        OnSelect: |+
+                            =Remove([@user_db], selectedRecord); 
+                            UpdateContext( { //CurrentItem: First(hit_Gallery_3.AllItems),
+                             itemSelected: false, editMode: false, newMode: false, deleteMode: false });
+                            
+                            
+                        PressedBorderColor: =RGBA(0, 69, 120, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(16, 110, 190, 1)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="削除"
+                        ZIndex: =28
+
+            SubmitConfirmDialogContainer1_4 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =7
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Visible: |-
+                    =// If(Or(submitMode), true, false)
+                    false
+                Width: =0
+                ZIndex: =25
+
+                ConfirmSubmitLabel1_5 As label:
+                    Align: =Align.Center
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(50, 49, 48, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(161, 159, 157, 1)
+                    FillPortions: =1
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Text: ="教員の追加を行いますか？"
+                    ZIndex: =25
+
+                ConfirmSubmitButtonBarContainer1_5 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    LayoutGap: =15
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutWrap: =true
+                    ZIndex: =26
+
+                    CancelSubmitButton1_5 As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(0, 69, 120, 1)
+                        Font: =Font.'Segoe UI'
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverFill: =RGBA(16, 110, 190, 1)
+                        OnSelect: |-
+                            =UpdateContext({ submitMode: false, submitCancelled: true })
+                        PressedBorderColor: =RGBA(0, 69, 120, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(16, 110, 190, 1)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="キャンセル"
+                        ZIndex: =27
+
+                    ConfirmSubmitButton1_5 As button:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(0, 69, 120, 1)
+                        Font: =Font.'Segoe UI'
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverFill: =RGBA(16, 110, 190, 1)
+                        OnSelect: |-
+                            =If(
+                                !Form1_3.Valid,
+                                Notify("未入力箇所があります.",NotificationType.Error);
+                                UpdateContext({ submitMode: false, submitCancelled: true }),
+                                
+                                SubmitForm(Form1_3);
+                                If(!editMode,
+                                    // 新規教員のmonthly_dbを追加する（1月から12月まで）
+                                    ForAll(
+                                        Sequence(12) As ThisSequenceMonth,
+                                        Patch(
+                                            [@monthly_db],
+                                            { ID: Blank() },
+                                            {
+                                                user_id: selectedRecord.user_id,
+                                                faculty: selectedRecord.faculty,
+                                                faculty_text: selectedRecord.faculty.Value,
+                                                // submit_dateを1月から12月まで繰り返し設定
+                                                year_month_date: DateValue(Start_Year & "/" & Text(ThisSequenceMonth.Value) & "/01")
+                                            }
+                                        )
+                                    );
+                                    //年度跨ぎ用に2年分用意する
+                                    ForAll(
+                                        Sequence(12) As ThisSequenceMonth,
+                                        Patch(
+                                            [@monthly_db],
+                                            { ID: Blank() },
+                                            {
+                                                user_id: selectedRecord.user_id,
+                                                faculty: selectedRecord.faculty,
+                                                faculty_text: selectedRecord.faculty.Value,
+                                                // submit_dateを1月から12月まで繰り返し設定
+                                                year_month_date: DateValue(Text(Value(Start_Year))+1 & "/" & Text(ThisSequenceMonth.Value) & "/01")
+                                            }
+                                        )
+                                    );
+                                    //新規教員のyear_dbを追加する
+                                    Patch(
+                                        [@year_db],
+                                        { ID: Blank() },
+                                        {
+                                            user_id: selectedRecord.user_id,
+                                            faculty: selectedRecord.faculty,
+                                            faculty_text: selectedRecord.faculty.Value,
+                                            year:Value(Start_Year),
+                                            current_paid_holiday:20,
+                                            previous_paid_holiday:0,
+                                            summer_holiday:5,        
+                                            acquisition_paid_holiday_day:0,
+                                            acquisition_summer_holiday_day:0
+                                        }
+                                    );
+                                );
+                                UpdateContext({ submitMode: false, submitCancelled: true });
+                            )
+                        PressedBorderColor: =RGBA(0, 69, 120, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(16, 110, 190, 1)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="申請"
+                        ZIndex: =28
+
+    Menu_bg_6 As rectangle:
+        BorderColor: =RGBA(131, 24, 75, 1)
+        Fill: =RGBA(0, 0, 0, 0.25)
+        Height: =Parent.Height
+        OnSelect: =Set(disp_menu, Not(disp_menu));
+        Visible: =disp_menu
+        Width: =App.Width
+        ZIndex: =4
+
+    Menu_6 As Menu:
+        Approval: =Approval_Screen1
+        CalcHoliday: =CalcHoliday_Screen1
+        Calendar: =Calendar_Screen1
+        Holiday: =Apply_Screen
+        Home: =Home_Screen
+        is_admin: =LookUp([@permission_db], permission_type = LookUp([@user_db], mail_address = User().Email).permission_type).admin
+        Setting: =
+        User: =User_Screen1
+        Visible: =disp_menu
+        ZIndex: =5
+
+    Button5 As button:
+        OnSelect: |+
+            =Set(users, [@user_db]);
+            ForAll(
+                users,
+                Notify(ThisRecord.user_name);
+                Patch(
+                    [@user_db],
+                    LookUp([@user_db] As db, db.user_id = ThisRecord.user_id),
+                    If(ThisRecord.faculty.Value in ["情報科学部", "国際学部", "芸術学部", "平和研究所"],
+                        {mail_address: $"{First(Split(ThisRecord.mail_address, "@")).Value}@hiroshima-cu.ac.jp"},
+                        {mail_address: $"{First(Split(ThisRecord.mail_address, "@")).Value}@office.hiroshima-cu.ac.jp"}
+                    )
+                )
+            );
+            
+            
+            
+        Text: ="ボタン"
+        Visible: =false
+        X: =40
+        Y: =40
+        ZIndex: =6
+

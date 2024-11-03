@@ -1,0 +1,9 @@
+[
+  {
+    "IsComponentScoped": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "year_user_collection",
+    "Type": "CollectionDataSourceInfo"
+  }
+]

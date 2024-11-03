@@ -1,0 +1,215 @@
+CalcHoliday_Screen2 As screen:
+
+    Button1 As button:
+        OnSelect: |-
+            =ClearCollect(
+                MonthWorkDB,
+                ForAll(
+                    Filter([@user_db], visible = true) As userdb,
+                    // Filter([@user_db], permission_type = -1) As userdb,
+                        AddColumns(
+                            Filter(
+                                [@work_db],
+                                user_id = userdb.user_id,
+                                (Start >= _firstDayOfMonth && Start < _lastDayOfMonth) || (End >= _firstDayOfMonth && End < _lastDayOfMonth)
+                            ),
+                            work_time,
+                            DateDiff(
+                                DateAdd(
+                                    Start,
+                                    break_time,
+                                    TimeUnit.Minutes
+                                ),
+                                End,
+                                TimeUnit.Minutes
+                            ),
+                            date,
+                            DateValue(Text(Start, "yyyy/mm/dd")),
+                            error_work_time,
+                            IsBlank(Start) || IsBlank(End)
+                        )
+                )
+            );
+            
+            ForAll(
+                MonthWorkDB,
+            // MyCalendarEvents(work_db)からmonthly_dbの各列を計算する
+                With({current_user_id: First(Value).user_id},
+                With(
+                    {  
+                        monthly_db_record: LookUp([@monthly_db], user_id = current_user_id && year_month_date = _firstDayOfMonth),
+                        calc_work_time: Sum(Filter(Value, Start >= _firstDayOfMonth, Start < _lastDayOfMonth), work_time),
+                        calc_work_days: CountRows(Distinct(Filter(Value, Start >= _firstDayOfMonth, Start < _lastDayOfMonth), date)),
+                        calc_confirmed_work_days: CountRows(Distinct(Filter(Value, Start >= _firstDayOfMonth, Start < _lastDayOfMonth, reg_type.Value="カードリーダー" || reg_type.Value="カードリーダー編集"),date)),
+                        current_year:Year(_firstDayOfMonth),
+                        current_month:Month(_firstDayOfMonth),
+                        date_range_end:If(_firstDayOfMonth>Today(),_firstDayOfMonth,_lastDayOfMonth<Today(),_lastDayOfMonth,Today()),
+                        PublicHolidays:[@public_holiday_db]
+                    },
+                    If(
+                        !IsBlankOrError(monthly_db_record) && !monthly_db_record.lock,// エラーではないかつ月末ロックがされていない
+                        Patch(
+                            [@monthly_db],
+                            monthly_db_record,
+                            {
+                                work_time: calc_work_time,
+                                work_days: calc_work_days,
+                                confirmed_work_days: calc_confirmed_work_days//,
+                                //absence_days:absence_work_day
+                            }
+                        )
+                    )
+                )
+                )
+            );
+            
+            Notify("整合完了", NotificationType.Success, 1);
+        Text: ="ボタン"
+        X: =1095
+        Y: =552
+        ZIndex: =1
+
+    Label5 As label:
+        Text: |-
+            =// CountRows(MonthWorkDB)
+            // 営業日の計算
+            // DateDiff(_firstDayOfMonth, _lastDayOfMonth)
+            
+            // 営業日の計算
+            CountIf(
+                ForAll(
+                    Sequence(_lastDayOfMonth - _firstDayOfMonth + 1),
+                    _firstDayOfMonth + Value - 1
+                ),
+                And(
+                    Weekday(Value) in [2, 3, 4, 5, 6],
+                    Not(Value in [@public_holiday_db].date)
+                )
+            )
+        X: =50
+        Y: =100
+        ZIndex: =2
+
+    DataTable1 As dataTable.datatable:
+        BorderStyle: =BorderStyle.Solid
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =404
+        Items: =MonthWorkDB
+        Width: =1278
+        X: =54
+        Y: =123
+        ZIndex: =3
+
+    dar_SearchContainer1 As groupContainer.horizontalAutoLayoutContainer:
+        DropShadow: =DropShadow.None
+        Fill: =RGBA(245, 245, 245, 1)
+        Height: =44
+        LayoutMode: =LayoutMode.Auto
+        X: =10
+        Y: =10
+        ZIndex: =4
+
+        Calendar_SearchIcon1_1 As icon:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(0, 69, 120, 1)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =44
+            Icon: =Icon.Reset
+            OnSelect: |-
+                =Reset(Calendar_UseridInput1_1);
+                Reset(Calendar_UserPicker1_1)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            Tooltip: ="名前の検索をやめる"
+            Width: =44
+            ZIndex: =1
+
+        Calendar_UserPicker1_1 As combobox:
+            BorderColor: =RGBA(245, 245, 245, 1)
+            ChevronBackground: =RGBA(245, 245, 245, 1)
+            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+            ChevronFill: =RGBA(50, 49, 48, 1)
+            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+            Color: =RGBA(50, 49, 48, 1)
+            DefaultSelectedItems: |-
+                =// LookUp([@user_db], mail_address = User().Email)
+                If(
+                    !IsBlank(Calendar_UseridInput1_1.Text),
+                    LookUp([@user_db], user_id = Value(Calendar_UseridInput1_1.Text)),
+                    LookUp([@user_db], mail_address = User().Email)
+                )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            DisabledFill: =RGBA(242, 242, 241, 0)
+            DisplayFields: =["Title","user_id"]
+            DisplayMode: |-
+                =If(
+                    First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin && admin_app,
+                    Parent.DisplayMode,
+                    DisplayMode.Disabled // 管理者以外は無効化
+                )
+            Fill: =RGBA(245, 245, 245, 1)
+            FillPortions: =1
+            Font: =Font.'Segoe UI'
+            Height: =44
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(50, 49, 48, 1)
+            HoverFill: =RGBA(245, 245, 245, 1)
+            InputTextPlaceholder: ="ユーザー名"
+            Items: |
+                =With(
+                    {
+                        is_admin: First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin,
+                        sorted_user_db: Sort(Filter([@user_db], StartsWith(user_name, Self.SearchText),visible), user_id, SortOrder.Ascending),
+                        only_me: Filter([@user_db], mail_address = User().Email)
+                    },
+                    If(
+                        is_admin,
+                        sorted_user_db,
+                        only_me
+                    )
+                )
+            LayoutMinWidth: =100
+            OnChange: =
+            OnSelect: =Reset(Calendar_UseridInput1_1)
+            PaddingBottom: =0
+            PaddingLeft: =12
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            SearchFields: =["Title"]
+            SearchItems: |-
+                =Search(With({is_admin:First(Filter([@permission_db],permission_type=First(Filter([@user_db],mail_address=User().Email)).permission_type)).admin,sorted_user_db:Sort(Filter([@user_db],StartsWith(user_name,Self.SearchText),visible),user_id,SortOrder.Ascending),only_me:Filter([@user_db],mail_address=User().Email)},If(is_admin,sorted_user_db,only_me)),Calendar_UserPicker1_1.SearchText,Title)
+            SelectionFill: =RGBA(0, 120, 212, 1)
+            SelectMultiple: =false
+            Template: =ListItemTemplate.Double
+            Width: =Parent.Width - Calendar_SearchIcon1_1.Width - 2
+            ZIndex: =3
+
+        Calendar_UseridInput1_1 As text:
+            BorderThickness: =0
+            Default: =
+            DisplayMode: |-
+                =If(
+                    First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin && admin_app,
+                    Parent.DisplayMode,
+                    DisplayMode.Disabled // 管理者以外は無効化
+                )
+            Fill: =RGBA(245, 245, 245, 1)
+            FillPortions: =1
+            Format: =TextFormat.Number
+            Height: =44
+            HintText: =If(admin_app, "職員番号", "")
+            LayoutMinWidth: =100
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =4
+

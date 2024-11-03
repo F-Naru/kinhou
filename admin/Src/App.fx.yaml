@@ -1,0 +1,22 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |
+        =// 今月にリセット
+        Refresh([@work_db]);
+        Reset(YearDropdown1);
+        Reset(MonthDropdown1);
+        Set(_dateSelected, Today());
+        Set(_firstDayOfMonth, DateAdd(Today(), 1 - Day(Today()), TimeUnit.Days));
+        Set(_firstDayInView, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth, StartOfWeek.Monday) - 2 + 1), TimeUnit.Days));
+        Set(_lastDayOfMonth, DateAdd(DateAdd(_firstDayOfMonth, 1, TimeUnit.Months), -1, TimeUnit.Days));
+        ClearCollect(MyCalendarEvents, Filter([@work_db], user_id = Calendar_UserPicker1.Selected.user_id, Start >= _firstDayInView, Start < _lastDayOfMonth));
+    StartScreen: =Home_Screen
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

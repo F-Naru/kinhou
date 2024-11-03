@@ -1,0 +1,1861 @@
+CalcHoliday_Screen1 As screen:
+    OnHidden: |-
+        =//UpdateContext({Humberger:false})//未使用変数
+    OnVisible: |-
+        =Set(disp_menu, false);
+        Select(DisplayButton1);
+        
+        /*
+        //↓↓↓未使用変数
+        //データテーブル用変数定義(初期値　休暇日数閲覧 false   出勤日数閲覧 true)
+        //UpdateContext({holiday_Mode:false,work_Mode:true});
+        ////残りの年次有給休暇日数（今後はデータベースから取得）
+        //UpdateContext({Total_Paid_leave:20});
+        ////残りの夏季休暇日数（今後はデータベースから取得）
+        //UpdateContext({Total_Summer_holiday:5});
+        */
+
+    ScreenContainer1_4 As groupContainer.verticalAutoLayoutContainer:
+        ContentLanguage: =
+        DropShadow: =DropShadow.None
+        Fill: =RGBA(250, 250, 250, 1)
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =15
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =16
+        PaddingLeft: =16
+        PaddingRight: =16
+        PaddingTop: =16
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Width: =Parent.Width
+        ZIndex: =1
+
+        TitleBar_4 As TitleBar:
+            LayoutMinHeight: =640
+            LayoutMinWidth: =640
+            TitleBarLabel: ="勤怠状況一覧"
+            UserName: |-
+                =LookUp(user_db,mail_address=User().Email).user_name & "　" & LookUp(user_db,mail_address=User().Email).user_id & "
+                " & User().Email
+            UserPermissionName: =First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).permission_name
+            ZIndex: =1
+
+        TableNameContainer1_4 As groupContainer.horizontalAutoLayoutContainer:
+            Fill: =RGBA(0, 121, 187, 1)
+            FillPortions: =0
+            Height: =68
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            Visible: =false
+            ZIndex: =2
+
+            BackButton1_5 As icon.ChevronLeft:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                DisabledColor: =RGBA(225, 223, 221, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 120, 212, 1)
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =RGBA(0, 120, 212, 1)
+                Icon: =Icon.Hamburger
+                OnSelect: |-
+                    =//UpdateContext({Humberger:!Humberger})//未使用変数
+                PaddingBottom: =15
+                PaddingLeft: =15
+                PaddingRight: =15
+                PaddingTop: =15
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(16, 110, 190, 1)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =Self.Height
+                ZIndex: =1
+
+            TableNameLabel1_4 As label:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledColor: =RGBA(186, 186, 186, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                FillPortions: =1
+                FontWeight: =FontWeight.Semibold
+                Height: =68
+                PaddingBottom: =16
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =16
+                Size: =16
+                Text: ="勤怠状況一覧画面"
+                ZIndex: =2
+
+            IconRefresh1_5 As icon.Reload:
+                AccessibleLabel: =Self.Tooltip
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(0, 120, 212, 1)
+                Height: =40
+                Icon: =Icon.Reload
+                OnSelect: |-
+                    =Refresh([@holiday_db]);
+                    Refresh([@year_db]);
+                    Refresh([@monthly_db]);
+                PaddingBottom: =15
+                PaddingLeft: =15
+                PaddingRight: =15
+                PaddingTop: =15
+                PressedFill: =RGBA(255, 255, 255, 0.3)
+                TabIndex: =0
+                Tooltip: ="一覧の更新"
+                X: =464
+                ZIndex: =6
+
+        BodyContainer1_4 As groupContainer.horizontalAutoLayoutContainer:
+            DropShadow: =DropShadow.None
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =16
+            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+            ZIndex: =3
+
+            Container2_2 As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                Fill: =RGBA(255, 255, 255, 1)
+                FillPortions: =0
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =16
+                PaddingLeft: =16
+                PaddingRight: =16
+                PaddingTop: =16
+                Width: =400 
+                ZIndex: =1
+
+                閲覧期間用コンテナ_1 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    year_dropdown_1 As dropdown:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        ChevronBackground: =RGBA(245, 245, 245, 1)
+                        ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                        ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                        ChevronFill: =RGBA(50, 49, 48, 1)
+                        ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                        ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        Default: =Year(Today())
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(245, 245, 245, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =44
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(50, 49, 48, 1)
+                        HoverFill: =RGBA(245, 245, 245, 1)
+                        Items: =Sequence(5,Year(Today())-3)
+                        LayoutMinWidth: =10
+                        OnChange: =Select(DisplayButton1)
+                        OnSelect: =
+                        PaddingBottom: =5
+                        PaddingLeft: =12
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedFill: =RGBA(0, 120, 212, 1)
+                        SelectionColor: =RGBA(50, 49, 48, 1)
+                        SelectionFill: =RGBA(0, 0, 0, 0)
+                        Width: =Parent.Width/2 - 30
+                        Y: =3
+                        ZIndex: =1
+
+                    Label13_1 As label:
+                        Align: =Align.Center
+                        Text: =If(work_Mode,"年","年度")
+                        Width: =60
+                        ZIndex: =2
+
+                    month_dropdown_1 As dropdown:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        ChevronBackground: =RGBA(245, 245, 245, 1)
+                        ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                        ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                        ChevronFill: =RGBA(50, 49, 48, 1)
+                        ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                        ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        Default: =Month(Today())
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        Fill: =RGBA(245, 245, 245, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =44
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(50, 49, 48, 1)
+                        HoverFill: =RGBA(245, 245, 245, 1)
+                        Items: =[1,2,3,4,5,6,7,8,9,10,11,12]
+                        LayoutMinWidth: =10
+                        OnChange: =Select(DisplayButton1)
+                        OnSelect: =
+                        PaddingBottom: =5
+                        PaddingLeft: =12
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedFill: =RGBA(0, 120, 212, 1)
+                        SelectionColor: =RGBA(50, 49, 48, 1)
+                        SelectionFill: =RGBA(0, 0, 0, 0)
+                        Visible: =work_Mode
+                        Width: =90
+                        Y: =3
+                        ZIndex: =3
+
+                    Label14_1 As label:
+                        Text: ="月"
+                        Visible: =work_Mode
+                        Width: =30
+                        ZIndex: =5
+
+                    Label15_1 As label:
+                        Text: ="分"
+                        Width: =30
+                        ZIndex: =6
+
+                Selected_Mode_Radio_1 As radio:
+                    AlignInContainer: =AlignInContainer.Start
+                    BorderColor: =RGBA(0, 69, 212, 0.01)
+                    Height: =55
+                    Items: =["出勤日数閲覧","休暇日数閲覧"]
+                    Layout: =Layout.Horizontal
+                    OnChange: =Select(DisplayButton1)
+                    OnSelect: |-
+                        =If(Selected_Mode_Radio_1.Selected.Value = "休暇日数閲覧",UpdateContext({holiday_Mode : true,work_Mode : false}),UpdateContext({holiday_Mode : false,work_Mode : true}));
+                    RadioBorderColor: =RGBA(0, 69, 120, 1)
+                    RadioSize: =30
+                    Width: =Parent.Width-32
+                    ZIndex: =2
+
+                CalcHoliday_SearchContainer1 As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    Fill: =RGBA(245, 245, 245, 1)
+                    FillPortions: =0
+                    Height: =44
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =0
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =3
+
+                    CalcHoliday_SearchIcon1 As icon:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 69, 120, 1)
+                        DisabledBorderColor: =RGBA(56, 56, 56, 1)
+                        DisabledColor: =RGBA(119, 119, 119, 1)
+                        Height: =44
+                        Icon: =Icon.Reset
+                        OnSelect: |-
+                            =Reset(CalcHoliday_UseridInput1);
+                            Reset(CalcHoliday_UserPicker1)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Tooltip: ="名前の検索をやめる"
+                        Width: =44
+                        ZIndex: =1
+
+                    CalcHoliday_UserPicker1 As combobox:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        ChevronBackground: =RGBA(245, 245, 245, 1)
+                        ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                        ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                        ChevronFill: =RGBA(50, 49, 48, 1)
+                        ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                        ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                        Color: =RGBA(50, 49, 48, 1)
+                        DefaultSelectedItems: |-
+                            =// LookUp([@user_db], mail_address = User().Email)
+                            If(
+                                !IsBlank(CalcHoliday_UseridInput1.Text),
+                                LookUp([@user_db], user_id = Value(CalcHoliday_UseridInput1.Text))
+                            )
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(161, 159, 157, 1)
+                        DisabledFill: =RGBA(242, 242, 241, 0)
+                        DisplayFields: =["Title","user_id"]
+                        DisplayMode: |-
+                            =If(
+                                First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin,
+                                Parent.DisplayMode,
+                                DisplayMode.Disabled // 管理者以外は無効化
+                            )
+                        Fill: =RGBA(245, 245, 245, 1)
+                        FillPortions: =1
+                        Font: =Font.'Segoe UI'
+                        Height: =44
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(50, 49, 48, 1)
+                        HoverFill: =RGBA(245, 245, 245, 1)
+                        InputTextPlaceholder: ="ユーザー名"
+                        Items: |
+                            =With(
+                                {
+                                    is_admin: First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin,
+                                    sorted_user_db: Sort(Filter([@user_db], StartsWith(user_name, Self.SearchText),visible), user_id, SortOrder.Ascending),
+                                    only_me: Filter([@user_db], mail_address = User().Email)
+                                },
+                                If(
+                                    is_admin,
+                                    sorted_user_db,
+                                    only_me
+                                )
+                            )
+                        LayoutMinWidth: =100
+                        OnChange: =Select(DisplayButton1)
+                        OnSelect: =Reset(CalcHoliday_UseridInput1)
+                        PaddingBottom: =0
+                        PaddingLeft: =12
+                        PaddingTop: =0
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedFill: =RGBA(0, 120, 212, 1)
+                        SearchFields: =["Title"]
+                        SearchItems: |-
+                            =Search(With({is_admin:First(Filter([@permission_db],permission_type=First(Filter([@user_db],mail_address=User().Email)).permission_type)).admin,sorted_user_db:Sort(Filter([@user_db],StartsWith(user_name,Self.SearchText),visible),user_id,SortOrder.Ascending),only_me:Filter([@user_db],mail_address=User().Email)},If(is_admin,sorted_user_db,only_me)),CalcHoliday_UserPicker1.SearchText,Title)
+                        SelectionFill: =RGBA(0, 120, 212, 1)
+                        SelectMultiple: =false
+                        Template: =ListItemTemplate.Double
+                        Width: =Parent.Width - CalcHoliday_SearchIcon1.Width - 2
+                        ZIndex: =3
+
+                    CalcHoliday_UseridInput1 As text:
+                        BorderThickness: =0
+                        Default: =
+                        DisplayMode: |-
+                            =If(
+                                First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin,
+                                Parent.DisplayMode,
+                                DisplayMode.Disabled // 管理者以外は無効化
+                            )
+                        Fill: =RGBA(245, 245, 245, 1)
+                        FillPortions: =1
+                        Format: =TextFormat.Number
+                        Height: =44
+                        HintText: ="職員番号"
+                        LayoutMinWidth: =100
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        ZIndex: =4
+
+                フィルターコンテナ_1 As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    LayoutOverflowY: =LayoutOverflow.Scroll
+                    Visible: =If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name),true,false)
+                    Width: |
+                        =Parent.Width-32
+                    ZIndex: =4
+
+                    FilterTitleContainer1 As groupContainer.manualLayoutContainer:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        ZIndex: =1
+
+                        FilterTitle1 As label:
+                            PaddingLeft: =10
+                            Text: ="検索条件"
+                            Width: =Parent.Width - FilterIcon1.Width
+                            X: =FilterIcon1.Width
+                            ZIndex: =1
+
+                        FilterIcon1 As icon.Filter:
+                            DisplayMode: =DisplayMode.View
+                            Height: =40
+                            Icon: =Icon.Filter
+                            PaddingBottom: =10
+                            PaddingLeft: =10
+                            PaddingRight: =10
+                            PaddingTop: =10
+                            Width: =40
+                            ZIndex: =2
+
+                    学部コンテナ_1 As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Start
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        Label12_1 As label:
+                            Align: =Align.Center
+                            Text: ="学部等"
+                            ZIndex: =1
+
+                        FacultyDropdown1_3 As dropdown:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            ChevronBackground: =RGBA(245, 245, 245, 1)
+                            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                            ChevronFill: =RGBA(50, 49, 48, 1)
+                            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                            Color: =RGBA(50, 49, 48, 1)
+                            Default: ="情報科学部"
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(161, 159, 157, 1)
+                            DisabledFill: =RGBA(242, 242, 241, 0)
+                            Fill: =RGBA(245, 245, 245, 1)
+                            Font: =Font.'Segoe UI'
+                            Height: =44
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =RGBA(50, 49, 48, 1)
+                            HoverFill: =RGBA(245, 245, 245, 1)
+                            Items: =Choices([@user_db].faculty)
+                            LayoutMinWidth: =10
+                            OnChange: =Select(DisplayButton1)
+                            OnSelect: =
+                            PaddingBottom: =5
+                            PaddingLeft: =12
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedFill: =RGBA(0, 120, 212, 1)
+                            SelectionColor: =RGBA(50, 49, 48, 1)
+                            SelectionFill: =RGBA(0, 0, 0, 0)
+                            Width: =Parent.Width/2
+                            Y: =3
+                            ZIndex: =3
+
+                    出勤日数別表示用コンテナ_1 As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingTop: =5
+                        Visible: =work_Mode
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                        Label9_1 As label:
+                            Align: =Align.Center
+                            Text: ="出勤日数"
+                            ZIndex: =1
+
+                        Toggle1_1 As toggleSwitch:
+                            Height: =30
+                            TrueFill: =RGBA(0, 120, 212, 1)
+                            Width: =130
+                            ZIndex: =2
+
+                    出勤日数コンテナ_1 As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =5
+                        PaddingLeft: =50
+                        PaddingTop: =5
+                        Visible: =And(work_Mode,Toggle1_1.Value)
+                        Width: =Parent.Width
+                        ZIndex: =4
+
+                        Label11_1 As label:
+                            Align: =Align.Center
+                            Text: ="勤務日数"
+                            ZIndex: =1
+
+                        days_count_dropdown_1 As dropdown:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            ChevronBackground: =RGBA(245, 245, 245, 1)
+                            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                            ChevronFill: =RGBA(50, 49, 48, 1)
+                            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                            Color: =RGBA(50, 49, 48, 1)
+                            Default: ="16"
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(161, 159, 157, 1)
+                            DisabledFill: =RGBA(242, 242, 241, 0)
+                            Fill: =RGBA(245, 245, 245, 1)
+                            Font: =Font.'Segoe UI'
+                            Height: =44
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =RGBA(50, 49, 48, 1)
+                            HoverFill: =RGBA(245, 245, 245, 1)
+                            Items: =Sequence(DateDiff(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),TimeUnit.Days))
+                            LayoutMinWidth: =10
+                            OnChange: =
+                            OnSelect: =
+                            PaddingBottom: =5
+                            PaddingLeft: =12
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedFill: =RGBA(0, 120, 212, 1)
+                            SelectionColor: =RGBA(50, 49, 48, 1)
+                            SelectionFill: =RGBA(0, 0, 0, 0)
+                            Width: =80
+                            Y: =3
+                            ZIndex: =3
+
+                        Label7_1 As label:
+                            Text: ="日未満"
+                            ZIndex: =4
+
+                    大学出勤日数コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =5
+                        PaddingLeft: =50
+                        PaddingTop: =5
+                        Visible: =And(work_Mode,Toggle1_1.Value)
+                        Width: =Parent.Width
+                        ZIndex: =5
+
+                        Label11_2 As label:
+                            Align: =Align.Center
+                            Text: ="出勤日数"
+                            ZIndex: =1
+
+                        days_count_dropdown_2 As dropdown:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            ChevronBackground: =RGBA(245, 245, 245, 1)
+                            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                            ChevronFill: =RGBA(50, 49, 48, 1)
+                            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                            Color: =RGBA(50, 49, 48, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(161, 159, 157, 1)
+                            DisabledFill: =RGBA(242, 242, 241, 0)
+                            Fill: =RGBA(245, 245, 245, 1)
+                            Font: =Font.'Segoe UI'
+                            Height: =44
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =RGBA(50, 49, 48, 1)
+                            HoverFill: =RGBA(245, 245, 245, 1)
+                            Items: =Sequence(DateDiff(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),TimeUnit.Days))
+                            LayoutMinWidth: =10
+                            OnChange: =
+                            OnSelect: =
+                            PaddingBottom: =5
+                            PaddingLeft: =12
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedFill: =RGBA(0, 120, 212, 1)
+                            SelectionColor: =RGBA(50, 49, 48, 1)
+                            SelectionFill: =RGBA(0, 0, 0, 0)
+                            Width: =80
+                            Y: =3
+                            ZIndex: =3
+
+                        Label7_2 As label:
+                            Text: ="日未満"
+                            ZIndex: =4
+
+                    欠勤日数表示用コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingTop: =5
+                        Visible: =work_Mode
+                        Width: =Parent.Width
+                        ZIndex: =6
+
+                        Label9_2 As label:
+                            Align: =Align.Center
+                            Text: ="欠勤日数"
+                            ZIndex: =1
+
+                        Toggle1_2 As toggleSwitch:
+                            Height: =30
+                            TrueFill: =RGBA(0, 120, 212, 1)
+                            Width: =130
+                            ZIndex: =2
+
+                    欠勤日数コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =5
+                        PaddingLeft: =50
+                        PaddingTop: =5
+                        Visible: =And(work_Mode,Toggle1_2.Value)
+                        Width: =Parent.Width
+                        ZIndex: =7
+
+                        Label11_3 As label:
+                            Align: =Align.Center
+                            Text: ="欠勤日数"
+                            ZIndex: =1
+
+                        days_count_dropdown_3 As dropdown:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            ChevronBackground: =RGBA(245, 245, 245, 1)
+                            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                            ChevronFill: =RGBA(50, 49, 48, 1)
+                            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                            Color: =RGBA(50, 49, 48, 1)
+                            Default: =0
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(161, 159, 157, 1)
+                            DisabledFill: =RGBA(242, 242, 241, 0)
+                            Fill: =RGBA(245, 245, 245, 1)
+                            Font: =Font.'Segoe UI'
+                            Height: =44
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =RGBA(50, 49, 48, 1)
+                            HoverFill: =RGBA(245, 245, 245, 1)
+                            Items: =Sequence(DateDiff(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),TimeUnit.Days))
+                            LayoutMinWidth: =10
+                            OnChange: =
+                            OnSelect: =
+                            PaddingBottom: =5
+                            PaddingLeft: =12
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedFill: =RGBA(0, 120, 212, 1)
+                            SelectionColor: =RGBA(50, 49, 48, 1)
+                            SelectionFill: =RGBA(0, 0, 0, 0)
+                            Width: =80
+                            Y: =3
+                            ZIndex: =3
+
+                        Label7_3 As label:
+                            Text: ="日以上"
+                            ZIndex: =4
+
+                    月末申請提出コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =work_Mode
+                        ZIndex: =8
+
+                        Label1 As label:
+                            Align: =Align.Center
+                            Text: ="月末勤怠未提出者"
+                            ZIndex: =1
+
+                        Toggle2 As toggleSwitch:
+                            DisplayMode: =If(!Toggle2_1.Value,DisplayMode.Edit,DisplayMode.View)
+                            Height: =30
+                            Width: =130
+                            ZIndex: =2
+
+                    月末申請提出コンテナ_1 As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =work_Mode
+                        ZIndex: =9
+
+                        Label1_3 As label:
+                            Align: =Align.Center
+                            Text: ="月末勤怠提出者"
+                            ZIndex: =1
+
+                        Toggle2_1 As toggleSwitch:
+                            DisplayMode: =If(!Toggle2.Value,DisplayMode.Edit,DisplayMode.View)
+                            Height: =30
+                            Width: =130
+                            ZIndex: =2
+
+                    年次有給休暇日数コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Start
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =holiday_Mode
+                        Width: =Parent.Width
+                        ZIndex: =10
+
+                        Label12_2 As label:
+                            Align: =Align.Center
+                            Text: ="年休取得日数"
+                            Width: =200
+                            ZIndex: =1
+
+                        Toggle1 As toggleSwitch:
+                            Height: =30
+                            Width: =130
+                            ZIndex: =2
+
+                    年次有給休暇日数フィルター用コンテナ As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =5
+                        PaddingLeft: =180
+                        PaddingTop: =5
+                        Visible: =Toggle1.Value
+                        Width: =Parent.Width
+                        ZIndex: =11
+
+                        CurrentPaidHolidayDropdown As dropdown:
+                            BorderColor: =RGBA(245, 245, 245, 1)
+                            ChevronBackground: =RGBA(245, 245, 245, 1)
+                            ChevronDisabledBackground: =RGBA(242, 242, 241, 0)
+                            ChevronDisabledFill: =RGBA(161, 159, 157, 1)
+                            ChevronFill: =RGBA(50, 49, 48, 1)
+                            ChevronHoverBackground: =RGBA(245, 245, 245, 1)
+                            ChevronHoverFill: =RGBA(50, 49, 48, 1)
+                            Color: =RGBA(50, 49, 48, 1)
+                            Default: =5
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(161, 159, 157, 1)
+                            DisabledFill: =RGBA(242, 242, 241, 0)
+                            Fill: =RGBA(245, 245, 245, 1)
+                            Font: =Font.'Segoe UI'
+                            Height: =44
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =RGBA(50, 49, 48, 1)
+                            HoverFill: =RGBA(245, 245, 245, 1)
+                            Items: =Sequence(40)
+                            LayoutMinWidth: =10
+                            OnChange: =Select(DisplayButton1)
+                            OnSelect: =
+                            PaddingBottom: =5
+                            PaddingLeft: =12
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedFill: =RGBA(0, 120, 212, 1)
+                            SelectionColor: =RGBA(50, 49, 48, 1)
+                            SelectionFill: =RGBA(0, 0, 0, 0)
+                            Width: =80
+                            Y: =3
+                            ZIndex: =1
+
+                        Label4 As label:
+                            Text: ="日未満"
+                            ZIndex: =2
+
+                FunctionContainer As groupContainer.horizontalAutoLayoutContainer:
+                    DropShadow: =DropShadow.None
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutGap: =10
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =6
+
+                    CalcButtonContainer1 As groupContainer.manualLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        Fill: =If(CalcIcon.DisplayMode = DisplayMode.Edit, RGBA(0, 69, 120, 1), RGBA(116, 116, 116, 1))
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =0
+                        Visible: =work_Mode
+                        Width: =Parent.Width/2 - 5
+                        ZIndex: =1
+
+                        CalcIconText1 As label:
+                            Align: =Align.Right
+                            Color: =RGBA(255, 255, 255, 1)
+                            FontWeight: =FontWeight.Bold
+                            Height: =Parent.Height
+                            Size: =10
+                            Text: ="整合"
+                            Width: =Parent.Width/2
+                            ZIndex: =1
+
+                        CalcIcon As icon.Unlock:
+                            Color: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(255, 255, 255, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            DisplayMode: =If(First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin, DisplayMode.Edit, DisplayMode.Disabled)
+                            Height: =Parent.Height
+                            Icon: =Icon.Calculator
+                            OnSelect: |-
+                                =Notify(
+                                    "整合...(v01)"
+                                );
+                                Set(
+                                    _firstDayOfMonth,
+                                    Date(
+                                        year_dropdown_1.Selected.Value,
+                                        month_dropdown_1.Selected.Value,
+                                        1
+                                    )
+                                );
+                                Set(
+                                    _lastDayOfMonth,
+                                    DateAdd(
+                                        _firstDayOfMonth,
+                                        1,
+                                        TimeUnit.Months
+                                    )
+                                );
+                                ClearCollect(
+                                    MonthHolidayDB,
+                                    ForAll(
+                                        Filter(
+                                            [@user_db],
+                                            visible = true
+                                        ) As userdb,
+                                        With(
+                                            {
+                                                user_month_db: Filter(
+                                                    [@holiday_db],
+                                                    (start_date >= _firstDayOfMonth && start_date < _lastDayOfMonth) || (end_date >= _firstDayOfMonth && end_date < _lastDayOfMonth)
+                                                )
+                                            },
+                                            AddColumns(
+                                                user_month_db As umdb,
+                                                date,
+                                                DateValue(
+                                                    Text(
+                                                        umdb.start_date,
+                                                        "yyyy/mm/dd"
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                );
+                                Notify(
+                                    "整合 取得中...(v01)"
+                                );
+                                ClearCollect(
+                                    MonthWorkDB,
+                                    ForAll(
+                                        Filter(
+                                            [@user_db],
+                                            visible = true
+                                        ) As userdb,
+                                        //Filter([@user_db], user_id = 2120021) As userdb,
+                                        With(
+                                            {
+                                                user_month_db: Filter(
+                                                    [@work_db],
+                                                    user_id = userdb.user_id,
+                                                    (Start >= _firstDayOfMonth && Start < _lastDayOfMonth) || (End >= _firstDayOfMonth && End < _lastDayOfMonth)
+                                                ),
+                                                user_month_holiday_db: Filter(
+                                                    [@holiday_db],
+                                                    user_id = userdb.user_id,
+                                                    start_date >= _firstDayOfMonth,
+                                                    end_date < _lastDayOfMonth
+                                                )
+                                            },
+                                            AddColumns(
+                                                user_month_db As umdb,
+                                                    // 勤務時間
+                                                work_time,
+                                                DateDiff(
+                                                    DateAdd(
+                                                        umdb.Start,
+                                                        umdb.break_time,
+                                                        TimeUnit.Minutes
+                                                    ),
+                                                    umdb.End,
+                                                    TimeUnit.Minutes
+                                                ),
+                                                    // 勤務日の日付
+                                                date,
+                                                DateValue(
+                                                    Text(
+                                                        umdb.Start,
+                                                        "yyyy/mm/dd"
+                                                    )
+                                                ),
+                                                    // 勤務時間抜け
+                                                error_work_time,
+                                                IsBlank(umdb.Start) || IsBlank(umdb.End),
+                                                    // 勤務時間重複
+                                                overlapping_exists,
+                                                    !IsEmpty(
+                                                        Filter(
+                                                            user_month_db As record2,
+                                                            umdb.ID <> record2.ID && ((umdb.Start <= record2.End && umdb.End >= record2.Start) || (record2.Start <= umdb.End && record2.End >= umdb.Start))
+                                                        )
+                                                ),
+                                                    // 休暇申請重複
+                                                duplicate_application,
+                                                !IsEmpty(
+                                                    Filter(
+                                                        user_month_holiday_db As umhdb,
+                                                        umhdb.start_date <= DateValue(
+                                                            Text(
+                                                                umdb.Start,
+                                                                "yyyy/mm/dd"
+                                                            )
+                                                        ),
+                                                        umhdb.end_date >= DateValue(
+                                                            Text(
+                                                                umdb.Start,
+                                                                "yyyy/mm/dd"
+                                                            )
+                                                        ),
+                                                        !(umhdb.is_check = false && !IsBlank(umhdb.check_id))//却下ではない
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                );
+                                Notify(
+                                    "整合 処理中...(v01)"
+                                );
+                                ForAll(
+                                    MonthWorkDB,
+                                    With(
+                                        {
+                                            current_user_id: First(Value).user_id,
+                                            this_value: Value
+                                        },
+                                        With(
+                                            {
+                                                monthly_db_record: LookUp(
+                                                    [@monthly_db],
+                                                    user_id = current_user_id && year_month_date = _firstDayOfMonth
+                                                ),
+                                                // 勤務時間
+                                                calc_work_time: Sum(
+                                                    Filter(
+                                                        Value,
+                                                        Start >= _firstDayOfMonth,
+                                                        Start < _lastDayOfMonth
+                                                    ),
+                                                    work_time
+                                                ),
+                                                // 出勤日数
+                                                calc_work_days: CountRows(
+                                                    Distinct(
+                                                        Filter(
+                                                            Value,
+                                                            Start >= _firstDayOfMonth,
+                                                            Start < _lastDayOfMonth
+                                                        ),
+                                                        date
+                                                    )
+                                                ),
+                                                // 休日出勤日数
+                                                calc_holiday_work_days: CountRows(
+                                                    Distinct(
+                                                        Filter(
+                                                            Value,
+                                                            Start >= _firstDayOfMonth,
+                                                            Start < _lastDayOfMonth,
+                                                            is_holiday_work = true
+                                                        ),
+                                                        date
+                                                    )
+                                                ),
+                                                // 勤務日数(カードリーダーによる出勤確認日数)
+                                                calc_confirmed_work_days: CountRows(
+                                                    Distinct(
+                                                        Filter(
+                                                            Value,
+                                                            Start >= _firstDayOfMonth,
+                                                            Start < _lastDayOfMonth,
+                                                            reg_type.Value = "カードリーダー" || reg_type.Value = "カードリーダー編集"
+                                                        ),
+                                                        date
+                                                    )
+                                                ),
+                                                // 在宅勤務日数
+                                                calc_work_from_home_days: CountRows(
+                                                    Distinct(
+                                                        Filter(
+                                                            Value,
+                                                            Start >= _firstDayOfMonth,
+                                                            Start < _lastDayOfMonth,
+                                                            type.Value = "在宅"
+                                                        ),
+                                                        date
+                                                    )
+                                                ),                
+                                                // エラー日数の計算
+                                                calc_error_days: Sum(
+                                                    CountRows(
+                                                        Filter(
+                                                            Value,
+                                                            error_work_time || work_time < 0 || duplicate_application
+                                                        )
+                                                    ),
+                                                    CountRows(
+                                                        Distinct(
+                                                            Filter(
+                                                                Value,
+                                                                overlapping_exists
+                                                            ),
+                                                            date
+                                                        )
+                                                    )
+                                                )/*,
+                                                // 欠勤日の計算
+                                                calc_absent_days: CountIf(
+                                                    ForAll(
+                                                        Sequence(
+                                                            If(
+                                                                _lastDayOfMonth > Today(),
+                                                                Today(),
+                                                                _lastDayOfMonth
+                                                            ) - _firstDayOfMonth
+                                                        ),
+                                                        _firstDayOfMonth + Value - 1
+                                                    ),
+                                                    And(
+                                                        // 平日
+                                                        Weekday(Value) in [
+                                                            2,
+                                                            3,
+                                                            4,
+                                                            5,
+                                                            6
+                                                        ],
+                                                        // 特例の休日ではない
+                                                        Not(
+                                                            Value in Filter(
+                                                                [@public_holiday_db],
+                                                                is_holiday = true
+                                                            ).date
+                                                        ),
+                                                        // 出勤レコードがない
+                                                        Not(
+                                                            Value in this_value.date
+                                                        ),
+                                                        // 却下以外の休暇申請がない
+                                                        IsBlank(// 承認済み
+                                                            LookUp(
+                                                                [@holiday_db],
+                                                                user_id = current_user_id &&
+                                                                start_date <= Value &&
+                                                                end_date >= Value &&
+                                                                is_check = true
+                                                            )
+                                                        ),
+                                                        IsBlank(// 未承認
+                                                            LookUp(
+                                                                [@holiday_db],
+                                                                user_id = current_user_id &&
+                                                                start_date <= Value &&
+                                                                end_date >= Value &&
+                                                                is_check = false &&
+                                                                check_id = Blank()
+                                                            )
+                                                        )
+                                                    )
+                                                )*/
+                                            },
+                                            If(
+                                                !IsBlankOrError(monthly_db_record) && !monthly_db_record.lock,// エラーではないかつ月末ロックがされていない
+                                                Patch(
+                                                    [@monthly_db],
+                                                    monthly_db_record,
+                                                    {
+                                                        work_time: calc_work_time,
+                                                        work_days: calc_work_days,
+                                                        confirmed_work_days: calc_confirmed_work_days,
+                                                        // absence_days:absence_work_day
+                                                        // absence_days: calc_business_days + calc_holiday_work_days - calc_work_days,
+                                                        //absence_days: calc_absent_days,
+                                                        work_from_home_days: calc_work_from_home_days,
+                                                        error_days: calc_error_days
+                                                    }
+                                                )
+                                            )
+                                        )
+                                    )
+                                );
+                                Notify(
+                                    "整合完了",
+                                    NotificationType.Success
+                                );
+                                Select(DisplayButton1);
+                            PaddingBottom: =12
+                            PaddingLeft: =12 + Parent.Width/2
+                            PaddingRight: =12
+                            PaddingTop: =12
+                            Tooltip: ="テーブルに表示されているユーザー全員に編集のロックを解除します"
+                            Visible: |
+                                =work_Mode
+                            Width: =Parent.Width
+                            ZIndex: =2
+
+                    LockButtonContainer1 As groupContainer.manualLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        Fill: =If(LockIcon.DisplayMode = DisplayMode.Edit, RGBA(0, 69, 120, 1), RGBA(116, 116, 116, 1))
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =0
+                        Visible: =work_Mode
+                        Width: |-
+                            =// Parent.Width/2 - 5
+                            0
+                        ZIndex: =2
+
+                        LockIconText1 As label:
+                            Align: =Align.Right
+                            Color: =RGBA(255, 255, 255, 1)
+                            DisabledColor: =RGBA(255, 255, 255, 1)
+                            FontWeight: =FontWeight.Bold
+                            Height: =Parent.Height
+                            Size: =10
+                            Text: ="ロック設定"
+                            Width: =Parent.Width/2
+                            ZIndex: =1
+
+                        LockIcon As icon.Lock:
+                            Color: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(255, 255, 255, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            DisplayMode: =If(First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin, DisplayMode.Edit, DisplayMode.Disabled)
+                            Height: =Parent.Height
+                            Icon: =Icon.Lock
+                            OnSelect: |
+                                =
+                                If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name) &&FacultyDropdown1_3.Selected.Value = "未選択",
+                                    Notify("学部のフィルターを設定してください.",NotificationType.Error),
+                                    //出勤日数フィルターの閾値を格納
+                                    UpdateContext({work_days_counts:If(Toggle1_1.Value,days_count_dropdown_1.Selected.Value,DateDiff(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months)-1,TimeUnit.Days))});
+                                
+                                    //フィルタリングされたデータソース
+                                    UpdateContext({source_filter :If(!IsBlank(CalcHoliday_UserPicker1.Selected.user_name),
+                                        Filter(monthly_db,
+                                        year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                        year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),
+                                        CalcHoliday_UserPicker1.Selected.user_id = user_id),
+                                        
+                                        Filter(monthly_db,
+                                        year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                        year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),
+                                        work_days<= work_days_counts,
+                                        faculty.Value = FacultyDropdown1_3.Selected.Value
+                                        )
+                                        )
+                                        });
+                                
+                                //出勤日数別のフィルターはsource_filterで行っている.
+                                
+                                
+                                    //パッチ処理
+                                    ForAll(source_filter,
+                                        //教員が未選択の場合
+                                        If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name),
+                                            //月末申請が未提出
+                                            If(And(IsBlank(ThisRecord.submit_date),Toggle2.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:true}),
+                                            //月末申請が提出済み
+                                            And(!IsBlank(ThisRecord.submit_date),Toggle2_1.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:true}),
+                                            //一括ロック
+                                            And(!Toggle2.Value,!Toggle2_1.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:true})),
+                                        //教員が選択の場合
+                                        Patch(monthly_db,ThisRecord,{lock:true})));
+                                    Notify("テーブル内に表示している教員の編集をロックしました。",NotificationType.Success);
+                                    Select(DisplayButton1)
+                                )
+                            PaddingBottom: =12
+                            PaddingLeft: =12 + Parent.Width/2
+                            PaddingRight: =12
+                            PaddingTop: =12
+                            Tooltip: ="テーブルに表示されているユーザー全員に編集ロックをします"
+                            Visible: =work_Mode
+                            Width: =Parent.Width
+                            ZIndex: =2
+
+                    UnLockButtonContainer1 As groupContainer.manualLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        Fill: =If(UnLockIcon.DisplayMode = DisplayMode.Edit, RGBA(0, 69, 120, 1), RGBA(116, 116, 116, 1))
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =0
+                        Visible: =work_Mode
+                        Width: =Parent.Width/2 - 5
+                        ZIndex: =3
+
+                        UnLockIconText1 As label:
+                            Align: =Align.Right
+                            Color: =RGBA(255, 255, 255, 1)
+                            FontWeight: =FontWeight.Bold
+                            Height: =Parent.Height
+                            Size: =10
+                            Text: ="ロック解除"
+                            Width: =Parent.Width/2
+                            ZIndex: =1
+
+                        UnLockIcon As icon.Unlock:
+                            Color: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(255, 255, 255, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            DisplayMode: =If(First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin, DisplayMode.Edit, DisplayMode.Disabled)
+                            Height: =Parent.Height
+                            Icon: =Icon.Unlock
+                            OnSelect: |-
+                                =If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name) && FacultyDropdown1_3.Selected.Value = "未選択",
+                                    Notify("学部のフィルターを設定してください.",NotificationType.Error),
+                                    //出勤日数フィルターの閾値を格納
+                                    UpdateContext({work_days_counts:If(Toggle1_1.Value,days_count_dropdown_1.Selected.Value,DateDiff(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months)-1,TimeUnit.Days))});
+                                
+                                    //フィルタリングされたデータソース
+                                    UpdateContext({source_filter :If(!IsBlank(CalcHoliday_UserPicker1.Selected.user_name),
+                                        Filter(monthly_db,
+                                        year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                        year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),
+                                        CalcHoliday_UserPicker1.Selected.user_id = user_id),
+                                        
+                                        Filter(monthly_db,
+                                        year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                        year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),
+                                        work_days<= work_days_counts,
+                                        faculty.Value = FacultyDropdown1_3.Selected.Value
+                                        )
+                                        )
+                                        });
+                                
+                                    //パッチ処理
+                                    ForAll(source_filter,
+                                        If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name),  
+                                            If(And(IsBlank(ThisRecord.submit_date),Toggle2.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:false}),
+                                            And(!IsBlank(ThisRecord.submit_date),Toggle2_1.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:false}),
+                                            And(!Toggle2.Value,!Toggle2_1.Value),
+                                                Patch(monthly_db,ThisRecord,{lock:false})),
+                                            Patch(monthly_db,ThisRecord,{lock:false})));
+                                    Notify("テーブル内に表示している教員の編集ロックを解除しました。",NotificationType.Success);
+                                    Select(DisplayButton1)
+                                )
+                            PaddingBottom: =12
+                            PaddingLeft: =12 + Parent.Width/2
+                            PaddingRight: =12
+                            PaddingTop: =12
+                            Tooltip: ="テーブルに表示されているユーザー全員に編集のロックを解除します"
+                            Visible: =work_Mode
+                            Width: =Parent.Width
+                            ZIndex: =2
+
+                    ExportButtonContainer1 As groupContainer.manualLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        Fill: =If(ExportIcon1.DisplayMode = DisplayMode.Edit, RGBA(0, 69, 120, 1), RGBA(116, 116, 116, 1))
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =0
+                        Visible: =false
+                        Width: =Parent.Width/2 - 5
+                        ZIndex: =4
+
+                        ExportIconText1 As label:
+                            Align: =Align.Right
+                            Color: =RGBA(255, 255, 255, 1)
+                            FontWeight: =FontWeight.Bold
+                            Height: =Parent.Height
+                            Size: =10
+                            Text: ="出力"
+                            Width: =Parent.Width/2
+                            ZIndex: =1
+
+                        ExportIcon1 As icon.Unlock:
+                            Color: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(255, 255, 255, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            DisplayMode: =If(First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin, DisplayMode.Edit, DisplayMode.Disabled)
+                            Height: =Parent.Height
+                            Icon: =Icon.Export
+                            PaddingBottom: =12
+                            PaddingLeft: =12 + Parent.Width/2
+                            PaddingRight: =12
+                            PaddingTop: =12
+                            Tooltip: ="テーブルに表示されているユーザー全員に編集のロックを解除します"
+                            Visible: |
+                                =work_Mode
+                            Width: =Parent.Width
+                            ZIndex: =2
+
+                        Export1 As export:
+                            Data: |-
+                                =Sort(
+                                    Filter(work_collect,
+                                    //フィルター処理
+                                        If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name), LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).visible, true),
+                                        If(!IsBlank(CalcHoliday_UserPicker1.Selected.user_name),CalcHoliday_UserPicker1.Selected.user_id = user_id,true),
+                                        //学部でフィルタリング
+                                        If(!(FacultyDropdown1_3.Selected.Value　=　"未選択")　&& IsBlank(CalcHoliday_UserPicker1.Selected.user_name),faculty.Value = FacultyDropdown1_3.Selected.Value,true),
+                                        //勤務日数でフィルタリング
+                                        If(Toggle1_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name) ,days_count_dropdown_1.Selected.Value>work_days,true),
+                                        //出勤日数でフィルタリング
+                                        If(Toggle1_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name) ,days_count_dropdown_2.Selected.Value>confirmed_work_days,true),
+                                        //欠勤日数でフィルタリング
+                                        If(Toggle1_2.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),days_count_dropdown_3.Selected.Value<=absence_days,true),
+                                        //月末勤怠未提出者のフィルタリング
+                                        If(Toggle2.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),!submit,true),
+                                        //月末勤怠提出者のフィルタリング
+                                        If(Toggle2_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),submit,true)
+                                
+                                    ),
+                                    user_id
+                                )
+                            Fill: =RGBA(0, 0, 0, 0)
+                            Height: =Parent.Height
+                            Text: =
+                            Width: =Parent.Width
+                            ZIndex: =3
+
+                    DisplayButtonContainer1 As groupContainer.manualLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =Parent.Height
+                        LayoutMinWidth: =250
+                        Width: =0
+                        ZIndex: =5
+
+                        DisplayButton1 As button:
+                            BorderColor: =
+                            BorderThickness: =0
+                            Fill: =RGBA(0, 65, 115, 1)
+                            Font: =Font.Arial
+                            Height: =Parent.Height
+                            HoverFill: =RGBA(0, 69, 120, 0.5)
+                            OnSelect: |
+                                =If(First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).admin,
+                                    UpdateContext({wait_Mode:true});
+                                    //出勤日数表示
+                                    If(work_Mode,
+                                        Refresh([@monthly_db]);
+                                        //教員名選択・未選択用の分岐処理
+                                        If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name),
+                                        　　//教員名未選択
+                                            ClearCollect(work_collect,AddColumns(Filter([@monthly_db],
+                                            //フィルター処理
+                                            year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                            year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months)
+                                            ),
+                                            user_name,LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).user_name,
+                                            submit,!IsBlank(submit_date))),
+                                
+                                            //教員名選択
+                                            ClearCollect(work_collect,AddColumns(Filter([@monthly_db],
+                                            //フィルター処理
+                                            year_month_date>=Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),
+                                            year_month_date<DateAdd(Date(year_dropdown_1.Selected.Value,month_dropdown_1.Selected.Value,1),1,TimeUnit.Months),
+                                            CalcHoliday_UserPicker1.Selected.user_id = user_id
+                                            ),
+                                            user_name,LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).user_name,
+                                            submit,!IsBlank(submit_date)))
+                                        ),
+                                
+                                    //休暇日数表示
+                                    holiday_Mode,
+                                    Refresh([@year_db]);
+                                    ClearCollect(holiday_collect,Filter(AddColumns(year_db,user_name,LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).user_name),
+                                        If(!IsBlank(CalcHoliday_UserPicker1.Selected.user_name),
+                                            CalcHoliday_UserPicker1.Selected.user_id = user_id,true),
+                                        //該当年を取得
+                                        year = year_dropdown_1.Selected.Value))//,Notify("閲覧機能が未選択です",NotificationType.Error)
+                                
+                                    );
+                                
+                                
+                                
+                                    
+                                    UpdateContext({wait_Mode:false});
+                                );
+                            PressedBorderColor: =RGBA(0, 69, 120, 1)
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =RGBA(0, 69, 120, 1)
+                            RadiusBottomLeft: =5
+                            RadiusBottomRight: =5
+                            RadiusTopLeft: =5
+                            RadiusTopRight: =5
+                            Size: =16
+                            Text: ="表示"
+                            Visible: =false
+                            Width: =Parent.Width
+                            ZIndex: =2
+
+            DataTableContainer As groupContainer.manualLayoutContainer:
+                Fill: =RGBA(255, 255, 255, 1)
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                ZIndex: =5
+
+                Label4_1 As label:
+                    Align: =Align.Center
+                    Height: =Parent.Height
+                    Size: =12
+                    Text: ="閲覧機能を選択してください"
+                    Visible: =And(!holiday_Mode,!work_Mode)
+                    Width: =Parent.Width
+                    X: =
+                    ZIndex: =1
+
+                holiday_viewTable As dataTable.datatable:
+                    BorderStyle: =BorderStyle.Solid
+                    DisplayMode: =DisplayMode.Edit
+                    Fill: =RGBA(0, 0, 0, 0)
+                    HeadingFill: =RGBA(0, 69, 120, 1)
+                    HeadingFont: =Font.Arial
+                    HeadingFontWeight: =FontWeight.Bold
+                    HeadingSize: =11
+                    Height: =Parent.Height
+                    Items: |-
+                        =Sort(
+                            Filter(holiday_collect,
+                            //フィルター処理
+                                If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name), LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).visible, true),
+                                If((FacultyDropdown1_3.Selected.Value　=　"未選択"　|| !IsBlank(CalcHoliday_UserPicker1.Selected.user_name)),true,faculty.Value = FacultyDropdown1_3.Selected.Value),
+                                If(Toggle1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name) ,CurrentPaidHolidayDropdown.Selected.Value>acquisition_paid_holiday_day,true)
+                            ),
+                            user_id
+                        )
+                    NoDataText: ="データがありません"
+                    Size: =12
+                    Visible: =And(!wait_Mode,holiday_Mode)
+                    Width: =Parent.Width
+                    X: =0
+                    Y: =0
+                    ZIndex: =2
+
+                    "'user_name列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =true
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="職員名"
+                        FieldName: ="user_name"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =2
+                        Text: =ThisItem.user_name
+                        Width: =242
+                        X: =0
+                        Y: =0
+                        ZIndex: =12
+
+                    "'acquisition_paid_holiday_day列(_C)1' As dataTableColumn.textualColumn":
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="年次有給休暇取得日数"
+                        FieldName: ="acquisition_paid_holiday_day"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =4
+                        Text: =ThisItem.acquisition_paid_holiday_day
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =21
+
+                    "'acquisition_summer_holiday_day列(_C)1' As dataTableColumn.textualColumn":
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="夏季休暇取得日数"
+                        FieldName: ="acquisition_summer_holiday_day"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =3
+                        Text: =ThisItem.acquisition_summer_holiday_day
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =22
+
+                    "'current_paid_holiday列(_C)1' As dataTableColumn.textualColumn":
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="年次有給休暇残日数 "
+                        FieldName: ="current_paid_holiday"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =5
+                        Text: =ThisItem.current_paid_holiday
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =26
+
+                    "'user_id列(_C)2' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="職員番号"
+                        FieldName: ="user_id"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =1
+                        Text: =ThisItem.user_id
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =28
+
+                work_viewTable As dataTable.datatable:
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    DisplayMode: =DisplayMode.Edit
+                    Fill: =RGBA(0, 0, 0, 0)
+                    HeadingFill: =RGBA(0, 69, 120, 1)
+                    HeadingFont: =Font.Arial
+                    HeadingFontWeight: =FontWeight.Semibold
+                    HeadingSize: =11
+                    Height: =Parent.Height
+                    Items: |-
+                        =Sort(
+                            Filter(work_collect,
+                            //フィルター処理
+                                If(IsBlank(CalcHoliday_UserPicker1.Selected.user_name), LookUp(RenameColumns(user_db,user_id,user_ID),user_id = user_ID).visible, true),
+                                If(!IsBlank(CalcHoliday_UserPicker1.Selected.user_name),CalcHoliday_UserPicker1.Selected.user_id = user_id,true),
+                                //学部でフィルタリング
+                                If(!(FacultyDropdown1_3.Selected.Value　=　"未選択")　&& IsBlank(CalcHoliday_UserPicker1.Selected.user_name),faculty.Value = FacultyDropdown1_3.Selected.Value,true),
+                                //勤務日数でフィルタリング
+                                If(Toggle1_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name) ,days_count_dropdown_1.Selected.Value>work_days,true),
+                                //出勤日数でフィルタリング
+                                If(Toggle1_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name) ,days_count_dropdown_2.Selected.Value>confirmed_work_days,true),
+                                //欠勤日数でフィルタリング
+                                If(Toggle1_2.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),days_count_dropdown_3.Selected.Value<=absence_days,true),
+                                //月末勤怠未提出者のフィルタリング
+                                If(Toggle2.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),!submit,true),
+                                //月末勤怠提出者のフィルタリング
+                                If(Toggle2_1.Value && IsBlank(CalcHoliday_UserPicker1.Selected.user_name),submit,true)
+                        
+                            ),
+                            user_id
+                        )
+                    NoDataText: ="データがありません"
+                    Size: =12
+                    Visible: =And(!wait_Mode,work_Mode)
+                    Width: =Parent.Width
+                    X: =0
+                    Y: =0
+                    ZIndex: =3
+
+                    "'user_name列(_C)2' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="名前"
+                        FieldName: ="user_name"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        IsHyperlink: =false
+                        LayoutHeight: =Parent.Height
+                        OnSelect: |-
+                            =Copy(work_viewTable.Selected.user_name);
+                            Notify(
+                                $"{work_viewTable.Selected.user_name} をコピーしました",
+                                NotificationType.Success
+                            );
+                        Order: =2
+                        Text: =ThisItem.user_name
+                        Visible: =true
+                        Width: =120
+                        X: =0
+                        Y: =0
+                        ZIndex: =15
+
+                    "'work_days列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="勤務日数"
+                        FieldName: ="work_days"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =3
+                        Text: =ThisItem.work_days
+                        Width: =80
+                        X: =179
+                        Y: =0
+                        ZIndex: =16
+
+                    "'health_detail列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =true
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="詳細"
+                        FieldName: ="health_detail"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        OnSelect: |-
+                            =Copy(work_viewTable.Selected.health_detail);
+                            Notify(
+                                $"{work_viewTable.Selected.health_detail} をコピーしました",
+                                NotificationType.Success
+                            );
+                        Order: =15
+                        Text: =ThisItem.health_detail
+                        Visible: =true
+                        Width: =200
+                        X: =603
+                        Y: =0
+                        ZIndex: =19
+
+                    "'health列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="健康確認"
+                        FieldName: ="health"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =14
+                        Text: =If(ThisItem.health,"✓","-")
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =20
+
+                    "'submit列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="提出済"
+                        FieldName: ="submit"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =12
+                        Text: =If(ThisItem.submit,"✓","-")
+                        Width: =80
+                        X: =754
+                        Y: =0
+                        ZIndex: =23
+
+                    "'lock列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="編集ロック"
+                        FieldName: ="lock"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =13
+                        Text: =If(ThisItem.lock,"✓","-")
+                        Width: =80
+                        X: =814
+                        Y: =0
+                        ZIndex: =24
+
+                    "'confirmed_work_days列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="出勤日数"
+                        FieldName: ="confirmed_work_days"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =4
+                        Text: =ThisItem.confirmed_work_days
+                        Width: =80
+                        X: =142
+                        Y: =0
+                        ZIndex: =25
+
+                    "'user_id列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="職員番号"
+                        FieldName: ="user_id"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        OnSelect: |-
+                            =Copy(work_viewTable.Selected.user_id);
+                            Notify(
+                                $"{work_viewTable.Selected.user_id} をコピーしました",
+                                NotificationType.Success
+                            );
+                        Order: =1
+                        Text: =ThisItem.user_id
+                        Visible: =true
+                        Width: =100
+                        X: =0
+                        Y: =0
+                        ZIndex: =27
+
+                    "'work_time列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="勤務時間 (h)"
+                        FieldName: ="work_time"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =11
+                        Text: =RoundUp(ThisItem.work_time/60, 1)
+                        Width: =80
+                        X: =640
+                        Y: =0
+                        ZIndex: =29
+
+                    "'absence_days列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="欠勤日数"
+                        FieldName: ="absence_days"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =7
+                        Text: =ThisItem.absence_days
+                        Visible: =false
+                        Width: =80
+                        X: =370
+                        Y: =0
+                        ZIndex: =30
+
+                    "'work_from_home_days列(_C)1' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="在宅勤務日数"
+                        FieldName: ="work_from_home_days"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =5
+                        Text: =ThisItem.work_from_home_days
+                        Visible: |-
+                            =//true
+                            false
+                        Width: =80
+                        X: =0
+                        Y: =0
+                        ZIndex: =31
+
+                    "'error_days列(_C)3' As dataTableColumn.textualColumn":
+                        AutoWidth: =false
+                        DisplayMode: =DisplayMode.Edit
+                        FieldDisplayName: ="エラー日"
+                        FieldName: ="error_days"
+                        FieldVariantName: ="textualColumn"
+                        Height: =Parent.Height
+                        LayoutHeight: =Parent.Height
+                        Order: =9
+                        Text: =ThisItem.error_days
+                        Visible: =true
+                        Width: =80
+                        X: =0
+                        Y: =0
+                        ZIndex: =32
+
+                Looding_text As label:
+                    Align: =Align.Center
+                    Text: ="読み込み中..."
+                    Visible: =wait_Mode
+                    X: =Parent.Width/2-Self.Width/2
+                    Y: =Parent.Height/2-Self.Height/2+Looding_gif.Height/2
+                    ZIndex: =6
+
+                Looding_gif As image:
+                    Height: =Parent.Height/3*2
+                    Image: ='1-1-loading'
+                    ImagePosition: =ImagePosition.Center
+                    Visible: =wait_Mode
+                    Width: =Parent.Width/3*2
+                    X: =Parent.Width/2-Self.Width/2
+                    Y: =Parent.Height/2-Self.Height/2
+                    ZIndex: =7
+
+    Menu_bg_2 As rectangle:
+        BorderColor: =RGBA(131, 24, 75, 1)
+        Fill: =RGBA(0, 0, 0, 0.25)
+        Height: =Parent.Height
+        OnSelect: =Set(disp_menu, Not(disp_menu));
+        Visible: =disp_menu
+        Width: =App.Width
+        ZIndex: =4
+
+    Menu_2 As Menu:
+        Approval: =Approval_Screen1
+        CalcHoliday: =CalcHoliday_Screen1
+        Calendar: =Calendar_Screen1
+        Holiday: =Apply_Screen
+        Home: =Home_Screen
+        is_admin: =LookUp([@permission_db], permission_type = LookUp([@user_db], mail_address = User().Email).permission_type).admin
+        Setting: =
+        User: =User_Screen1
+        Visible: =disp_menu
+        ZIndex: =5
+

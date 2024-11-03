@@ -1,0 +1,563 @@
+Home_Screen As screen:
+    OnVisible: |-
+        =Set(admin_app, true);// 管理アプリモード
+        Set(disp_menu, false);
+        If(
+            !LookUp([@permission_db], permission_type = LookUp([@user_db], mail_address = User().Email).permission_type).approval_permission,
+            Notify("承認権限がないため，管理者アプリを終了します", NotificationType.Error);
+            Exit();
+        );
+
+    all As groupContainer.horizontalAutoLayoutContainer:
+        Height: =Parent.Height
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        right_container As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =Home_Screen.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+            X: =730
+            ZIndex: =2
+
+            TitleBar_2 As TitleBar:
+                AlignInContainer: =AlignInContainer.Stretch
+                LayoutMinHeight: =640
+                LayoutMinWidth: =640
+                TitleBarLabel: ="勤務状況報告システム 管理者"
+                UserName: |-
+                    =LookUp(user_db,mail_address=User().Email).user_name & "　" & LookUp(user_db,mail_address=User().Email).user_id & "
+                    " & User().Email
+                UserPermissionName: =First(Filter([@permission_db], permission_type = First(Filter([@user_db], mail_address = User().Email)).permission_type)).permission_name
+                ZIndex: =1
+
+            header As groupContainer.horizontalAutoLayoutContainer:
+                Fill: =RGBA(255, 255, 255, 1)
+                FillPortions: =0
+                Height: =68
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =16
+                Visible: =false
+                Width: =Parent.Width
+                X: =190
+                ZIndex: =2
+
+                humberger_icon_1 As icon.Hamburger:
+                    BorderColor: =RGBA(0, 121, 187, 1)
+                    BorderThickness: =1
+                    Color: =RGBA(255, 255, 255, 1)
+                    Fill: =RGBA(0, 121, 187, 1)
+                    Height: =Parent.Height
+                    Icon: =Icon.Hamburger
+                    OnSelect: |-
+                        =//UpdateContext({Humberger:true})//未使用変数
+                    PaddingLeft: =10
+                    PaddingRight: =10
+                    Visible: =If(ScreenSize.Small=Home_Screen.Size,true,false)
+                    ZIndex: =1
+
+                header_4 As label:
+                    BorderColor: =RGBA(0, 121, 187, 1)
+                    BorderThickness: =1
+                    Color: =RGBA(255, 255, 255, 1)
+                    Fill: =RGBA(0, 120, 212, 1)
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    PaddingLeft: =60
+                    Size: =25
+                    Text: ="出勤・休暇アプリ：管理者"
+                    Width: =541
+                    X: =466
+                    ZIndex: =2
+
+                Label5_3 As label:
+                    Align: =Align.Right
+                    BorderColor: =RGBA(0, 121, 187, 1)
+                    BorderThickness: =1
+                    Color: =RGBA(255, 255, 255, 1)
+                    Fill: =RGBA(0, 120, 212, 1)
+                    FillPortions: =1
+                    Height: =Parent.Height
+                    PaddingRight: =30
+                    Size: =18
+                    Text: =LookUp(user_db,User().Email=mail_address).user_name&"　さん"
+                    Width: =244
+                    X: =1060
+                    Y: =20
+                    ZIndex: =3
+
+            body_1 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =Parent.Height-TitleBar_2.Height-40
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Width: =Parent.Width
+                X: =275
+                Y: =135
+                ZIndex: =3
+
+                MenuContainer_parent As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Center
+                    FillPortions: =4
+                    Height: |
+                        =Parent.Height-20
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =20
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+                    MenuContainer_3 As groupContainer.verticalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =Parent.Height/2
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =80
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.Width
+                        ZIndex: =1
+
+                        CalcHoliday1 As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.None
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =Parent.Height
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =120
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Width: =140
+                            ZIndex: =1
+
+                            CalcHoliday1_Datail1 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                Height: =80
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,10,13)
+                                Text: |-
+                                    ="出勤日数計算
+                                    月末ロック"
+                                Width: =Parent.Width
+                                Y: =label_holiday_2.Y+label_holiday_2.Height-10
+                                ZIndex: =1
+
+                            CalcHoliday1_Label1 As label:
+                                Align: =Align.Center
+                                Font: =Font.Arial
+                                Height: =30
+                                LineHeight: =2
+                                OnSelect: =Navigate(CalcHoliday_Screen1)
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,15,20)
+                                Text: ="勤怠状況一覧"
+                                Width: =Parent.Width
+                                Y: =CalcHoliday1_Icon1.Y + CalcHoliday1_Icon1.Height
+                                ZIndex: =2
+
+                            CalcHoliday1_Icon1 As icon.Home:
+                                Color: =RGBA(9, 33, 98, 1)
+                                Height: =If(ScreenSize.Medium>=Home_Screen.Size,60,100)
+                                Icon: =Icon.Journal
+                                OnSelect: =Navigate(CalcHoliday_Screen1)
+                                PaddingBottom: =5
+                                PaddingLeft: =24
+                                PaddingRight: =24
+                                PaddingTop: =24
+                                Width: =Parent.Width
+                                Y: =Parent.Height/2-Self.Height
+                                ZIndex: =3
+
+                            CalcHoliday1_Panel1 As rectangle:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderThickness: =4
+                                Height: =Parent.Height
+                                HoverFill: =RGBA(255, 255, 255, 0.5)
+                                OnSelect: =Navigate(CalcHoliday_Screen1)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+                        Calendar1 As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.Center
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.None
+                            Height: =Parent.Height
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =120
+                            Width: =140
+                            ZIndex: =2
+
+                            icon_calendar_3 As icon.Home:
+                                Color: =RGBA(9, 33, 98, 1)
+                                Fill: =RGBA(255, 255, 255, 1)
+                                Height: =If(ScreenSize.Medium>=Home_Screen.Size,60,100)
+                                Icon: =Icon.CalendarBlank
+                                OnSelect: =Navigate(Calendar_Screen1)
+                                PaddingBottom: =5
+                                PaddingLeft: =24
+                                PaddingRight: =24
+                                PaddingTop: =24
+                                Width: =Parent.Width
+                                Y: =Parent.Height/2-Self.Height
+                                ZIndex: =1
+
+                            label_calendar_3 As label:
+                                Align: =Align.Center
+                                Font: =Font.Arial
+                                Height: =30
+                                LineHeight: =2
+                                OnSelect: =Navigate(Calendar_Screen1)
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,15,20)
+                                Text: ="勤務状況"
+                                Width: =Parent.Width
+                                Y: =icon_calendar_3.Y + icon_calendar_3.Height
+                                ZIndex: =2
+
+                            detail_calendar_3 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                Height: =80
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,10,13)
+                                Text: |-
+                                    ="勤務状況の確認
+                                    打刻の修正"
+                                Width: =Parent.Width
+                                Y: =label_calendar_3.Y+label_calendar_3.Height-10
+                                ZIndex: =3
+
+                            panel_calendar_3 As rectangle:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderThickness: =4
+                                Height: =Parent.Height
+                                HoverFill: =RGBA(255, 255, 255, 0.5)
+                                OnSelect: =Navigate(Calendar_Screen1)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+                    MenuContainer_2 As groupContainer.verticalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =Parent.Height/2
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =80
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        Approval1 As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.None
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =Parent.Height
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =120
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Width: =140
+                            ZIndex: =1
+
+                            detail_monthly_2 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                Height: =80
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,10,13)
+                                Text: ="申請の承認"
+                                Width: =Parent.Width
+                                Y: =label_monthly_2.Y+label_monthly_2.Height-10
+                                ZIndex: =1
+
+                            label_monthly_2 As label:
+                                Align: =Align.Center
+                                Font: =Font.Arial
+                                Height: =30
+                                LineHeight: =2
+                                OnSelect: =
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,15,20)
+                                Text: ="承認"
+                                Width: =Parent.Width
+                                Y: =icon_monthly_2.Y + icon_monthly_2.Height
+                                ZIndex: =2
+
+                            icon_monthly_2 As icon.Home:
+                                BorderStyle: =BorderStyle.None
+                                Color: =RGBA(9, 33, 98, 1)
+                                Height: =If(ScreenSize.Medium>=Home_Screen.Size,60,100)
+                                Icon: =Icon.CheckBadge
+                                OnSelect: =
+                                PaddingBottom: =5
+                                PaddingLeft: =24
+                                PaddingRight: =24
+                                PaddingTop: =24
+                                Width: =Parent.Width
+                                Y: =Parent.Height/2-Self.Height
+                                ZIndex: =3
+
+                            panel_monthly_2 As rectangle:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderThickness: =4
+                                Height: =Parent.Height
+                                HoverFill: =RGBA(255, 255, 255, 0.5)
+                                OnSelect: =Navigate(Approval_Screen1)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+                        Holiday1 As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.None
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =Parent.Height
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =120
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Width: =140
+                            ZIndex: =2
+
+                            detail_holiday_2 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                Height: =80
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,10,13)
+                                Text: |-
+                                    ="休暇申請
+                                    休日出勤申請 その他"
+                                Width: =Parent.Width
+                                Y: =label_holiday_2.Y+label_holiday_2.Height-10
+                                ZIndex: =1
+
+                            label_holiday_2 As label:
+                                Align: =Align.Center
+                                Font: =Font.Arial
+                                Height: =30
+                                LineHeight: =2
+                                OnSelect: =Navigate(Apply_Screen)
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,15,20)
+                                Text: ="申請"
+                                Width: =Parent.Width
+                                Y: =icon_holiday_2.Y + icon_holiday_2.Height
+                                ZIndex: =2
+
+                            icon_holiday_2 As icon.Home:
+                                Color: =RGBA(9, 33, 98, 1)
+                                Height: =If(ScreenSize.Medium>=Home_Screen.Size,60,100)
+                                Icon: =Icon.ListScrollWatchlist
+                                OnSelect: =Navigate(Apply_Screen)
+                                PaddingBottom: =5
+                                PaddingLeft: =24
+                                PaddingRight: =24
+                                PaddingTop: =24
+                                Width: =Parent.Width
+                                Y: =Parent.Height/2-Self.Height
+                                ZIndex: =3
+
+                            panel_holiday_2 As rectangle:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderThickness: =4
+                                Height: =Parent.Height
+                                HoverFill: =RGBA(255, 255, 255, 0.5)
+                                OnSelect: =Navigate(Apply_Screen)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+                        User1 As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.None
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =Parent.Height
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =120
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Visible: |-
+                                =// 管理者のみ表示可能
+                                LookUp([@permission_db], permission_type = LookUp([@user_db], mail_address = User().Email).permission_type).admin
+                            Width: =140
+                            ZIndex: =3
+
+                            detail_monthly_3 As label:
+                                Align: =Align.Center
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(161, 159, 157, 1)
+                                FocusedBorderThickness: =4
+                                Font: =Font.'Segoe UI'
+                                Height: =80
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,10,13)
+                                Text: |-
+                                    ="ユーザーの追加
+                                    ユーザーの権限変更"
+                                Width: =Parent.Width
+                                Y: =label_monthly_3.Y+label_monthly_3.Height-10
+                                ZIndex: =1
+
+                            label_monthly_3 As label:
+                                Align: =Align.Center
+                                Font: =Font.Arial
+                                Height: =30
+                                LineHeight: =2
+                                OnSelect: =
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =If(ScreenSize.Medium>=Home_Screen.Size,15,20)
+                                Text: ="ユーザー管理"
+                                Width: =Parent.Width
+                                Y: =icon_monthly_3.Y + icon_monthly_3.Height
+                                ZIndex: =2
+
+                            icon_monthly_3 As icon.Home:
+                                BorderStyle: =BorderStyle.None
+                                Color: =RGBA(9, 33, 98, 1)
+                                Height: =If(ScreenSize.Medium>=Home_Screen.Size,60,100)
+                                Icon: =Icon.AddUser
+                                OnSelect: =
+                                PaddingBottom: =5
+                                PaddingLeft: =24
+                                PaddingRight: =24
+                                PaddingTop: =24
+                                Width: =Parent.Width
+                                Y: =Parent.Height/2-Self.Height
+                                ZIndex: =3
+
+                            panel_monthly_3 As rectangle:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderThickness: =4
+                                Height: =Parent.Height
+                                HoverFill: =RGBA(255, 255, 255, 0.5)
+                                OnSelect: =Navigate(User_Screen1)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+    Menu_bg_1 As rectangle:
+        BorderColor: =RGBA(131, 24, 75, 1)
+        Fill: =RGBA(0, 0, 0, 0.25)
+        Height: =Parent.Height
+        OnSelect: =Set(disp_menu, Not(disp_menu));
+        Visible: =disp_menu
+        Width: =App.Width
+        ZIndex: =2
+
+    Menu_1 As Menu:
+        Approval: =Approval_Screen1
+        CalcHoliday: =CalcHoliday_Screen1
+        Calendar: =Calendar_Screen1
+        Holiday: =Apply_Screen
+        Home: =Home_Screen
+        is_admin: =LookUp([@permission_db], permission_type = LookUp([@user_db], mail_address = User().Email).permission_type).admin
+        Setting: =
+        User: =User_Screen1
+        Visible: =disp_menu
+        ZIndex: =3
+

@@ -1,0 +1,82 @@
+{
+  "1f5f4478-3328-481e-a033-ac896088844a": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write",
+      "providers/PowerPlatform.Governance/Operations/Delete"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/jayawan/releases/v1.0.1697/1.0.1697.3786/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://hunet.sharepoint.com/sites/msteams_1bbfea_382163": {
+        "dataSources": {
+          "apply_item_db": {
+            "tableName": "ad05c3b8-bff4-4a72-80ea-5dcf5752977c"
+          },
+          "apply_type_db": {
+            "tableName": "52d941ce-b020-48eb-9b1d-8deee148b5bf"
+          },
+          "holiday_db": {
+            "tableName": "0daea197-bfe4-4e29-808a-0d24e036cc57"
+          },
+          "monthly_db": {
+            "tableName": "b710436e-addc-4ea2-b1ef-74c206119d64"
+          },
+          "permission_db": {
+            "tableName": "66e46fc7-37cb-42ca-9250-d9ca85a06845"
+          },
+          "public_holiday_db": {
+            "tableName": "4586bb6e-7778-4819-9581-0658fd5bed47"
+          },
+          "user_db": {
+            "tableName": "92b27b4f-9b77-42c5-8f95-b9f78c76e958"
+          },
+          "work_db": {
+            "tableName": "3ff6fda4-26bd-4ca3-a3df-9fb86f85694d"
+          },
+          "year_db": {
+            "tableName": "8b6a083f-aa0c-477f-ab6d-5a6e138fdca0"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "user_db",
+      "permission_db",
+      "work_db",
+      "public_holiday_db",
+      "monthly_db",
+      "year_db",
+      "holiday_db",
+      "apply_type_db",
+      "apply_item_db"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "1f5f4478-3328-481e-a033-ac896088844a"
+  },
+  "c53853cc-63af-4eac-8dbb-11705f5b6432": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 ユーザー",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1717/1.0.1717.3929/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365ユーザー"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "c53853cc-63af-4eac-8dbb-11705f5b6432"
+  }
+}
